@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="client.controllers.LoginRegisterController">
+    <children>
+        <VBox alignment="CENTER" spacing="20" layoutX="200.0" layoutY="100.0">
+            <Label text="Выберите действие:" />
+            <Button text="Регистрация" fx:id="registerButton" onAction="#onRegisterClick" />
+            <Button text="Авторизация" fx:id="loginButton" onAction="#onLoginClick" />
+            <Button text="Регистрация для администратора" fx:id="registerAdminButton" onAction="#onRegisterAdminClick" />
+        </VBox>
+    </children>
+</AnchorPane>

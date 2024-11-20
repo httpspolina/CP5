@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="client.controllers.LoginRegisterController">
+    <children>
+        <TextField fx:id="usernameField" promptText="Введите имя пользователя" AnchorPane.topAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"/>
+        <TextField fx:id="passwordField" promptText="Введите пароль" AnchorPane.topAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"/>
+        <Button text="Зарегистрироваться" AnchorPane.topAnchor="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" onAction="#onRegisterSubmitClick"/>
+    </children>
+</AnchorPane>
