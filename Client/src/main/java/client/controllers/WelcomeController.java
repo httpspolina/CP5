@@ -10,8 +10,8 @@ public class WelcomeController {
     private Label welcomeMessage;
 
     // Метод для установки приветственного сообщения
-    public void setWelcomeMessage(String username) {
-        welcomeMessage.setText("Здравствуйте, " + username + "!");
+    public void setWelcomeMessage(String welcomeMessageText) {
+        welcomeMessage.setText(welcomeMessageText);
     }
 
     // Метод для выхода из приложения (закрывает окно приветствия)
