@@ -2,23 +2,42 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.WelcomeController">
     <children>
         <VBox alignment="CENTER" layoutX="200.0" layoutY="100.0" spacing="20" />
         <Label fx:id="welcomeMessage" layoutX="40.0" layoutY="55.0" text="Здравствуйте, [Имя пользователя]!" textFill="#f8b179" />
-        <Button layoutX="667.0" layoutY="508.0" onAction="#onExitClick" prefHeight="26.0" prefWidth="92.0" text="Выход" />
         <Text fill="WHITE" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
             <font>
                 <Font name="Microsoft YaHei UI Light" size="48.0" />
             </font>
         </Text>
+
+        <!-- Добавлена таблица с фильмами -->
+        <TableView fx:id="posterTable" editable="true" layoutX="50.0" layoutY="150.0" prefHeight="300.0" prefWidth="700.0">
+            <columns>
+                <TableColumn fx:id="posterColumn" prefWidth="248.0" text="Постер">
+                    <cellValueFactory>
+                        <!-- Задаем ImageView как элемент в ячейке -->
+                        <PropertyValueFactory property="poster"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="titleColumn" prefWidth="243.20001220703125" text="Название фильма" />
+                <TableColumn fx:id="infoColumn" prefWidth="203.199951171875" text="Информация" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+
         <Label fx:id="PosterLabel" layoutX="348.0" layoutY="28.0" onMouseClicked="#onPosterLabelClick" prefHeight="20.0" prefWidth="51.0" style="-fx-cursor: hand; -fx-underline: true;" text="Афиша" textFill="WHITE">
             <font>
                 <Font size="14.0" />
@@ -35,21 +54,10 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <Text fill="WHITE" layoutX="40.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Афиша">
+        <Text fill="WHITE" layoutX="194.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Афиша">
             <font>
                 <Font name="Microsoft YaHei Bold" size="18.0" />
             </font>
         </Text>
-        <Pane layoutX="36.0" layoutY="153.0" prefHeight="223.0" prefWidth="138.0" style="-fx-background-color: #8F97C5;">
-            <children>
-                <ImageView fx:id="filmPoster" fitHeight="142.0" fitWidth="99.0" layoutX="21.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-                <Text fx:id="filmTitle" fill="WHITE" layoutX="20.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Название" wrappingWidth="98.99999999999994">
-                    <font>
-                        <Font name="Microsoft YaHei Bold" size="12.0" />
-                    </font>
-                </Text>
-                <Button fx:id="Gladiator2_film" layoutX="14.0" layoutY="184.0" mnemonicParsing="false" onAction="#OnGladiator2_filmClick" prefHeight="25.0" prefWidth="113.0" text="Подробнее" />
-            </children>
-        </Pane>
     </children>
 </AnchorPane>

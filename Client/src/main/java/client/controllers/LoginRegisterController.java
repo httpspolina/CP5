@@ -122,7 +122,7 @@ public class LoginRegisterController {
             Parent root = loader.load();
 
             // Устанавливаем имя пользователя в WelcomeController
-            WelcomeController.setCurrentUser(username);
+            WelcomeController.setCurrentUser(username);  // Теперь этот метод существует!
 
             Stage currentStage = (Stage) usernameField.getScene().getWindow();
             currentStage.getScene().setRoot(root);

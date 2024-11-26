@@ -26,8 +26,8 @@ public abstract class BaseController {
     @FXML
     protected void onPosterLabelClick(MouseEvent mouseEvent) {
         try {
-            // Загружаем FXML файл с нужной страницей
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/welcome.fxml")); // Убедитесь, что путь к файлу правильный
+            // Убедитесь, что путь к файлу правильный
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/welcome.fxml"));
             AnchorPane welcomePage = loader.load(); // Загружаем страницу
 
             // Получаем ссылку на текущую сцену и обновляем ее
@@ -37,8 +37,7 @@ public abstract class BaseController {
             stage.show();  // Показываем новое окно
 
         } catch (IOException e) {
-            e.printStackTrace();
-            // Можно добавить обработку ошибок, например, отображение предупреждения, если файл не найден.
+            e.printStackTrace();  // Логируем ошибку, если не удается загрузить страницу
         }
     }
 
@@ -55,7 +54,7 @@ public abstract class BaseController {
         System.out.println("Переход к мероприятиям");
         // Реализовать логику перехода к мероприятиям
     }
-    
+
     @FXML
     protected void OnAccountButtonClick(ActionEvent actionEvent) {
     }
