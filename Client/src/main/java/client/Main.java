@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         // Загружаем FXML файл
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/login_register.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/login.fxml"));
         AnchorPane root = loader.load();
 
         // Создаем сцену и показываем ее

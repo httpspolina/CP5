@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.FilmController">
+   <children>
+      <Text fx:id="filmTitle" fill="WHITE" layoutX="280.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[Название фильма]">
+         <font>
+            <Font name="Microsoft YaHei Bold" size="18.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="288.0" fitWidth="200.0" layoutX="36.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/10049693-706x1024.jpg" />
+         </image>
+      </ImageView>
+      <TextArea fx:id="filmDescription" editable="false" layoutX="280.0" layoutY="128.0" prefHeight="162.0" prefWidth="479.0" wrapText="true" />
+      <Label fx:id="welcomeMessage" layoutX="38.0" layoutY="52.0" text="Здравствуйте, [Имя пользователя]!" textFill="#f8b179" />
+      <Text fill="WHITE" layoutX="34.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
+         <font>
+            <Font name="Microsoft YaHei UI Light" size="48.0" />
+         </font>
+      </Text>
+      <Label fx:id="PosterLabel" layoutX="346.0" layoutY="25.0" onMouseClicked="#onPosterLabelClick" prefHeight="20.0" prefWidth="51.0" style="-fx-cursor: hand; -fx-underline: true;" text="Афиша" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="HallsLabel" layoutX="420.0" layoutY="25.0" onMouseClicked="#onHallsLabelClick" prefHeight="20.0" prefWidth="66.0" style="-fx-cursor: hand; -fx-underline: true;" text="Кинозалы" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="AccountButton" layoutX="665.0" layoutY="22.0" mnemonicParsing="false" onAction="#OnAccountButtonClick" prefHeight="26.0" prefWidth="92.0" text="Профиль" />
+      <Label fx:id="EventsLabel" layoutX="504.0" layoutY="25.0" onMouseClicked="#onEventsLabelClick" prefHeight="20.0" prefWidth="92.0" style="-fx-cursor: hand; -fx-underline: true;" text="Мероприятия" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

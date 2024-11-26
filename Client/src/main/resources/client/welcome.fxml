@@ -1,15 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="client.controllers.WelcomeController">
+<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="client.controllers.WelcomeController">
     <children>
-        <VBox alignment="CENTER" spacing="20" layoutX="200.0" layoutY="100.0">
-            <Label text="Выберите действие:" />
-            <Label fx:id="welcomeMessage" text="Здравствуйте, [Имя пользователя]!" />
-            <Button text="Выход" onAction="#onExitClick"/>
-        </VBox>
+        <VBox alignment="CENTER" layoutX="200.0" layoutY="100.0" spacing="20" />
+        <Label fx:id="welcomeMessage" layoutX="40.0" layoutY="55.0" text="Здравствуйте, [Имя пользователя]!" textFill="#f8b179" />
+        <Button layoutX="667.0" layoutY="508.0" onAction="#onExitClick" prefHeight="26.0" prefWidth="92.0" text="Выход" />
+        <Text fill="WHITE" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
+            <font>
+                <Font name="Microsoft YaHei UI Light" size="48.0" />
+            </font>
+        </Text>
+        <Label fx:id="PosterLabel" layoutX="348.0" layoutY="28.0" onMouseClicked="#onPosterLabelClick" prefHeight="20.0" prefWidth="51.0" style="-fx-cursor: hand; -fx-underline: true;" text="Афиша" textFill="WHITE">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="HallsLabel" layoutX="422.0" layoutY="28.0" onMouseClicked="#onHallsLabelClick" prefHeight="20.0" prefWidth="66.0" style="-fx-cursor: hand; -fx-underline: true;" text="Кинозалы" textFill="WHITE">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Button fx:id="AccountButton" layoutX="667.0" layoutY="25.0" mnemonicParsing="false" onAction="#OnAccountButtonClick" prefHeight="26.0" prefWidth="92.0" text="Профиль" />
+        <Label fx:id="EventsLabel" layoutX="506.0" layoutY="28.0" onMouseClicked="#onEventsLabelClick" prefHeight="20.0" prefWidth="92.0" style="-fx-cursor: hand; -fx-underline: true;" text="Мероприятия" textFill="WHITE">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Text fill="WHITE" layoutX="40.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Афиша">
+            <font>
+                <Font name="Microsoft YaHei Bold" size="18.0" />
+            </font>
+        </Text>
+        <Pane layoutX="36.0" layoutY="153.0" prefHeight="223.0" prefWidth="125.0" style="-fx-background-color: #8F97C5;">
+            <children>
+                <ImageView fitHeight="142.0" fitWidth="109.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/10049693-706x1024.jpg" />
+                    </image>
+                </ImageView>
+                <Text fill="WHITE" layoutX="24.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Гладиатор 2" wrappingWidth="76.822265625">
+                    <font>
+                        <Font name="Microsoft YaHei Bold" size="12.0" />
+                    </font>
+                </Text>
+                <Button fx:id="Gladiator2_film" layoutX="14.0" layoutY="184.0" mnemonicParsing="false" onAction="#OnGladiator2_filmClick" prefHeight="25.0" prefWidth="98.0" text="Подробнее" />
+            </children>
+        </Pane>
     </children>
 </AnchorPane>

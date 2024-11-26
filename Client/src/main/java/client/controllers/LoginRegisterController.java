@@ -4,6 +4,7 @@ import client.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -17,9 +18,6 @@ import java.net.Socket;
 public class LoginRegisterController {
 
     @FXML
-    public TextField usernameField_registration;
-    public PasswordField passwordField_registration;
-    public Button registerButton_registration;
     public Button registerButton;
     public Label registerAdminButton;
     public Button loginButtonMenu;
@@ -39,12 +37,10 @@ public class LoginRegisterController {
     private static final int SERVER_PORT = 12345;
     private static final String ADMIN_CODE = "pass123";
 
-    // Новый метод для переключения между страницами
     private void switchPage(String fxmlFile) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             AnchorPane root = loader.load();
-            // Используем текущую сцену для загрузки нового содержимого
             Stage stage = (Stage) registerButtonMenu.getScene().getWindow();
             stage.getScene().setRoot(root);
         } catch (IOException e) {
@@ -60,11 +56,11 @@ public class LoginRegisterController {
 
     @FXML
     private void onAuthorizationClick(ActionEvent event) {
-        switchPage("/client/login_register.fxml");
+        switchPage("/client/login.fxml");
     }
 
     @FXML
-    private void onRegisterAdminClick(MouseEvent event) {
+    public void onRegisterAdminClick(MouseEvent event) {
         switchPage("/client/register_admin.fxml");
     }
 
@@ -86,7 +82,7 @@ public class LoginRegisterController {
             if (result.startsWith("Авторизация успешна")) {
                 openWelcomeWindow("Добро пожаловать, " + username);
             } else {
-                showErrorAlert(result); // Показываем сообщение об ошибке
+                showErrorAlert(result);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -99,22 +95,20 @@ public class LoginRegisterController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // Проверка на пустые поля
         if (username.isEmpty() || password.isEmpty()) {
             showErrorAlert("Пожалуйста, заполните все поля.");
             return;
         }
 
-        // Создаем объект User
         User user = new User(username, password);
 
         try {
             String result = registerUser(user);
 
             if (result.equals("Пользователь успешно зарегистрирован")) {
-                openWelcomeWindow("Добро пожаловать, " + username); // Открываем окно приветствия
+                openWelcomeWindow("Добро пожаловать, " + username);
             } else {
-                showErrorAlert(result); // Показываем сообщение об ошибке
+                showErrorAlert(result);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -122,31 +116,34 @@ public class LoginRegisterController {
         }
     }
 
-    private void openWelcomeWindow(String welcomeMessage) {
+    private void openWelcomeWindow(String username) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/welcome.fxml"));
-            AnchorPane root = loader.load();
-            WelcomeController welcomeController = loader.getController();
-            welcomeController.setWelcomeMessage(welcomeMessage);
+            Parent root = loader.load();
 
-            Scene scene = new Scene(root, 400, 300);
-            Stage welcomeStage = new Stage();
-            welcomeStage.setTitle("Добро пожаловать");
-            welcomeStage.setScene(scene);
-            welcomeStage.show();
+            // Устанавливаем имя пользователя в WelcomeController
+            WelcomeController.setCurrentUser(username);
+
+            Stage currentStage = (Stage) usernameField.getScene().getWindow();
+            currentStage.getScene().setRoot(root);
+            currentStage.setTitle("Добро пожаловать");
         } catch (IOException e) {
             e.printStackTrace();
+            showErrorAlert("Ошибка при загрузке страницы приветствия.");
         }
     }
 
     private String registerUser(User user) throws IOException {
         try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-             DataInputStream input = new DataInputStream(socket.getInputStream())) {
+             ObjectOutputStream objectOutput = new ObjectOutputStream(socket.getOutputStream());
+             ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream())) {
 
-            // Учитываем роль пользователя при отправке запроса
-            output.writeUTF("REGISTER_USER:" + user.getUsername() + ":" + user.getPassword() + ":" + user.getRole());
-            return input.readUTF(); // Возвращаем результат регистрации
+            objectOutput.writeObject("REGISTER_USER");
+            objectOutput.writeObject(user);
+            return (String) objectInput.readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return "Ошибка при обработке данных";
         }
     }
 
@@ -156,8 +153,8 @@ public class LoginRegisterController {
              ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream())) {
 
             objectOutput.writeObject("LOGIN_USER");
-            objectOutput.writeObject(user); // Отправляем объект User
-            return (String) objectInput.readObject(); // Ожидаем строку с результатом
+            objectOutput.writeObject(user);
+            return (String) objectInput.readObject();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return "Ошибка при обработке данных";
@@ -170,5 +167,42 @@ public class LoginRegisterController {
         alert.setHeaderText("Что-то пошло не так");
         alert.setContentText(errorMessage);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void onRegisterAdminSubmitClick(ActionEvent actionEvent) {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        String adminCode = adminCodeField.getText();
+
+        // Проверка на пустые поля
+        if (username.isEmpty() || password.isEmpty() || adminCode.isEmpty()) {
+            showErrorAlert("Пожалуйста, заполните все поля.");
+            return;
+        }
+
+        // Проверка правильности кода администратора
+        if (adminCode.equals(ADMIN_CODE)) {
+            // Создаем объект User с ролью admin
+            User user = new User(username, password, "admin");  // Присваиваем роль admin
+
+            try {
+                // Отправляем запрос на сервер для регистрации администратора
+                String result = registerUser(user);
+
+                // Обработка результата регистрации
+                if (result.equals("Пользователь успешно зарегистрирован")) {
+                    openWelcomeWindow("Добро пожаловать, " + username); // Открываем окно приветствия
+                } else {
+                    showErrorAlert(result); // Показываем сообщение об ошибке
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                showErrorAlert("Ошибка при подключении к серверу.");
+            }
+        } else {
+            // Ошибка, если код неправильный
+            showErrorAlert("Неверный код администратора.");
+        }
     }
 }

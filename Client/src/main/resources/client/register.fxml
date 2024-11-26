@@ -39,12 +39,12 @@
     <Label layoutX="52.0" layoutY="260.0" text="Логин:" textFill="WHITE" />
 
     <!-- Сделаем поле видимым -->
-    <TextField fx:id="usernameField_registration" focusTraversable="false" layoutX="52.0" layoutY="286.0" prefHeight="45.0" prefWidth="330.0" promptText="Введите логин" />
+    <TextField fx:id="usernameField" focusTraversable="false" layoutX="52.0" layoutY="286.0" prefHeight="45.0" prefWidth="330.0" promptText="Введите логин" />
 
     <Label layoutX="52.0" layoutY="350.0" prefHeight="18.0" prefWidth="48.0" text="Пароль:" textFill="WHITE" />
 
     <!-- Используем PasswordField для пароля -->
-    <PasswordField fx:id="passwordField_registration" layoutX="52.0" layoutY="376.0" prefHeight="46.0" prefWidth="330.0" promptText="Введите пароль" />
+    <PasswordField fx:id="passwordField" layoutX="52.0" layoutY="376.0" prefHeight="46.0" prefWidth="330.0" promptText="Введите пароль" />
     <Label layoutX="289.0" layoutY="426.0" prefHeight="18.0" prefWidth="92.0" text="Забыли пароль?" textFill="#60c7ff" />
     <Label fx:id="registerAdminButton" layoutX="52.0" layoutY="426.0" onMouseClicked="#onRegisterAdminClick" prefHeight="18.0" prefWidth="171.0" style="-fx-cursor: hand; -fx-underline: true;" text="Регистрация администратора" textFill="#60c7ff" />
       <Button fx:id="registerButtonMenu" layoutX="223.0" layoutY="52.0" onAction="#onRegisterClick" prefHeight="26.0" prefWidth="160.0" style="-fx-background-color: FFFFFF;" text="Регистрация" />
