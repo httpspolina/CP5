@@ -6,6 +6,7 @@ module Client {
     requires transitive javafx.media;
     requires transitive javafx.swing;
     requires transitive javafx.web;
+    requires java.sql;
 
     opens client;
     opens client.controllers;

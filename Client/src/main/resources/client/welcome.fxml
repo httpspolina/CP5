@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -10,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="client.controllers.WelcomeController">
+<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.WelcomeController">
     <children>
         <VBox alignment="CENTER" layoutX="200.0" layoutY="100.0" spacing="20" />
         <Label fx:id="welcomeMessage" layoutX="40.0" layoutY="55.0" text="Здравствуйте, [Имя пользователя]!" textFill="#f8b179" />
@@ -41,19 +40,15 @@
                 <Font name="Microsoft YaHei Bold" size="18.0" />
             </font>
         </Text>
-        <Pane layoutX="36.0" layoutY="153.0" prefHeight="223.0" prefWidth="125.0" style="-fx-background-color: #8F97C5;">
+        <Pane layoutX="36.0" layoutY="153.0" prefHeight="223.0" prefWidth="138.0" style="-fx-background-color: #8F97C5;">
             <children>
-                <ImageView fitHeight="142.0" fitWidth="109.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@img/10049693-706x1024.jpg" />
-                    </image>
-                </ImageView>
-                <Text fill="WHITE" layoutX="24.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Гладиатор 2" wrappingWidth="76.822265625">
+                <ImageView fx:id="filmPoster" fitHeight="142.0" fitWidth="99.0" layoutX="21.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                <Text fx:id="filmTitle" fill="WHITE" layoutX="20.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Название" wrappingWidth="98.99999999999994">
                     <font>
                         <Font name="Microsoft YaHei Bold" size="12.0" />
                     </font>
                 </Text>
-                <Button fx:id="Gladiator2_film" layoutX="14.0" layoutY="184.0" mnemonicParsing="false" onAction="#OnGladiator2_filmClick" prefHeight="25.0" prefWidth="98.0" text="Подробнее" />
+                <Button fx:id="Gladiator2_film" layoutX="14.0" layoutY="184.0" mnemonicParsing="false" onAction="#OnGladiator2_filmClick" prefHeight="25.0" prefWidth="113.0" text="Подробнее" />
             </children>
         </Pane>
     </children>

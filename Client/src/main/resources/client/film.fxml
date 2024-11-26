@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -16,12 +15,8 @@
             <Font name="Microsoft YaHei Bold" size="18.0" />
          </font>
       </Text>
-      <ImageView fitHeight="288.0" fitWidth="200.0" layoutX="36.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@img/10049693-706x1024.jpg" />
-         </image>
-      </ImageView>
-      <TextArea fx:id="filmDescription" editable="false" layoutX="280.0" layoutY="128.0" prefHeight="162.0" prefWidth="479.0" wrapText="true" />
+      <ImageView fx:id="filmPoster" fitHeight="288.0" fitWidth="200.0" layoutX="36.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" />
+      <TextArea fx:id="filmDescription" editable="false" layoutX="280.0" layoutY="128.0" prefHeight="111.0" prefWidth="479.0" wrapText="true" />
       <Label fx:id="welcomeMessage" layoutX="38.0" layoutY="52.0" text="Здравствуйте, [Имя пользователя]!" textFill="#f8b179" />
       <Text fill="WHITE" layoutX="34.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
          <font>
@@ -44,5 +39,55 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <Label layoutX="280.0" layoutY="260.0" text="Страна:" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Bold" size="14.0" />
+         </font>
+      </Label>
+      <Text fx:id="CountryField" fill="WHITE" layoutX="407.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="280.0" layoutY="284.0" text="Год:" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Bold" size="14.0" />
+         </font>
+      </Label>
+      <Text fx:id="YearField" fill="WHITE" layoutX="407.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="279.0" layoutY="308.0" text="Режиссеры:" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Bold" size="14.0" />
+         </font>
+      </Label>
+      <Text fx:id="DirectorField" fill="WHITE" layoutX="407.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="280.0" layoutY="333.0" text="В ролях:" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Bold" size="14.0" />
+         </font>
+      </Label>
+      <Text fx:id="RolesField" fill="WHITE" layoutX="407.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="279.0" layoutY="359.0" text="Жанр:" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei Bold" size="14.0" />
+         </font>
+      </Label>
+      <Text fx:id="GenreField" fill="WHITE" layoutX="407.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
