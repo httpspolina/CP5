@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.LoginRegisterController">
+    <children>
+        <Button fx:id="loginButtonMenu" layoutX="52.0" layoutY="52.0" onAction="#onAuthorizationClick" prefHeight="26.0" prefWidth="160.0" style="-fx-background-color: FFFFFF;" text="Вход">
+            <font>
+                <Font name="Microsoft YaHei" size="12.0" />
+            </font>
+        </Button>
+
+        <ImageView fitHeight="560.0" fitWidth="375.0" layoutX="491.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="1.0">
+            <image>
+                <Image url="@img/ben-tofan-LCIWUkPvcak-unsplash.jpg" />
+            </image>
+        </ImageView>
+
+        <Text fill="WHITE" layoutX="52.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
+            <font>
+                <Font name="Microsoft YaHei UI Light" size="48.0" />
+            </font>
+        </Text>
+
+        <Text fill="WHITE" layoutX="52.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Зарегистрируйтесь, чтобы продолжить">
+            <font>
+                <Font name="Microsoft YaHei" size="12.0" />
+            </font>
+        </Text>
+
+        <Label layoutX="52.0" layoutY="260.0" text="Логин:" textFill="WHITE" />
+
+        <!-- Сделаем поле видимым -->
+        <TextField fx:id="usernameField" focusTraversable="false" layoutX="52.0" layoutY="286.0" prefHeight="45.0" prefWidth="330.0" promptText="Введите логин" />
+
+        <Label layoutX="52.0" layoutY="350.0" prefHeight="18.0" prefWidth="48.0" text="Пароль:" textFill="WHITE" />
+
+        <!-- Используем PasswordField для пароля -->
+        <PasswordField fx:id="passwordField" layoutX="52.0" layoutY="376.0" prefHeight="46.0" prefWidth="330.0" promptText="Введите пароль" />
+        <Label layoutX="289.0" layoutY="426.0" prefHeight="18.0" prefWidth="92.0" text="Забыли пароль?" textFill="#60c7ff" />
+        <Label fx:id="registerAdminButton" layoutX="52.0" layoutY="426.0" onMouseClicked="#onRegisterAdminClick" prefHeight="18.0" prefWidth="171.0" style="-fx-cursor: hand; -fx-underline: true;" text="Регистрация администратора" textFill="#60c7ff" />
+        <Button fx:id="registerButtonMenu" layoutX="223.0" layoutY="52.0" onAction="#onRegisterClick" prefHeight="26.0" prefWidth="160.0" style="-fx-background-color: FFFFFF;" text="Регистрация" />
+        <Button fx:id="registerButton" layoutX="124.0" layoutY="476.0" mnemonicParsing="false" onAction="#onRegisterSubmitClick" prefHeight="38.0" prefWidth="200.0" style="-fx-background-color: F8B179;" text="Зарегистрироваться">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+
+    </children>
+</AnchorPane>

@@ -4,13 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
 
 import java.io.IOException;
 
@@ -35,9 +32,45 @@ public class WelcomeController {
         alert.showAndWait();
     }
 
-    public void toBackClick(ActionEvent actionEvent) {
+    // Обработчик перехода на страницу "films.fxml"
+    public void toFilmsClick(ActionEvent actionEvent) {
+        try {
+            // Загружаем новый экран "films.fxml"
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/films.fxml"));
+            Parent root = loader.load();
+
+            // Получаем текущее окно и меняем сцену
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+
+            // Устанавливаем заголовок для нового окна
+            stage.setTitle("Афиша");
+
+            // Отображаем сцену
+            stage.show();
+        } catch (IOException e) {
+            showErrorAlert("Не удалось загрузить страницу фильмов.");
+        }
     }
 
-    public void toFilmsClick(ActionEvent actionEvent) {
+    // Обработчик перехода назад на страницу "main.fxml"
+    public void toBackClick(ActionEvent actionEvent) {
+        try {
+            // Загружаем начальный экран "main.fxml"
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/main.fxml"));
+            Parent root = loader.load();
+
+            // Получаем текущее окно и меняем сцену
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+
+            // Устанавливаем заголовок для начального окна
+            stage.setTitle("Главная страница");
+
+            // Отображаем сцену
+            stage.show();
+        } catch (IOException e) {
+            showErrorAlert("Не удалось вернуться на главную страницу.");
+        }
     }
 }
