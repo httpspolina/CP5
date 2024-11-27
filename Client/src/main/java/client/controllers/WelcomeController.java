@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,10 +16,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class WelcomeController {
-
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/sample1";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "pc4w7wNR6tehEGY7";
 
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 12345;
@@ -30,6 +27,9 @@ public class WelcomeController {
         currentUser = username;
     }
 
+    @FXML
+    private TextArea filmTextArea;
+
     private void showErrorAlert(String errorMessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Ошибка");
@@ -39,21 +39,29 @@ public class WelcomeController {
     }
 
     // Обработчик перехода на страницу "films.fxml"
-    public void toFilmsClick(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/films.fxml"));
-        Parent root = loader.load();
+    public void toFilmsClick(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/films.fxml"));
+            Parent root = loader.load();
 
-        // Получаем текущее окно и меняем сцену
-        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+            // Получаем текущее окно и меняем сцену
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Афиша");
+            stage.show();
 
-        // Устанавливаем заголовок для нового окна
-        stage.setTitle("Афиша");
+            // После загрузки сцены, загружаем данные фильмов
+            WelcomeController controller = loader.getController();
+            controller.loadFilms();
 
-        // Отображаем сцену
-        stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Не удалось загрузить страницу фильмов.");
+        }
+    }
+
+    private void loadFilms() {
         try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-
              ObjectOutputStream objectOutput = new ObjectOutputStream(socket.getOutputStream());
              ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream())) {
 
@@ -63,8 +71,8 @@ public class WelcomeController {
             // Получаем список фильмов
             String filmsData = (String) objectInput.readObject();
 
-            // Выводим данные в консоль
-            System.out.println(filmsData);
+            // Выводим данные в TextArea
+            filmTextArea.setText(filmsData);
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -75,18 +83,12 @@ public class WelcomeController {
     // Обработчик перехода назад на страницу "main.fxml"
     public void toBackClick(ActionEvent actionEvent) {
         try {
-            // Загружаем начальный экран "main.fxml"
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/main.fxml"));
             Parent root = loader.load();
 
-            // Получаем текущее окно и меняем сцену
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-
-            // Устанавливаем заголовок для начального окна
             stage.setTitle("Главная страница");
-
-            // Отображаем сцену
             stage.show();
         } catch (IOException e) {
             showErrorAlert("Не удалось вернуться на главную страницу.");
