@@ -54,7 +54,7 @@
 
         <!-- Используем PasswordField для пароля -->
         <PasswordField fx:id="passwordField" layoutX="52.0" layoutY="376.0" prefHeight="46.0" prefWidth="330.0" promptText="Введите пароль" />
-      <Label layoutX="289.0" layoutY="426.0" prefHeight="18.0" prefWidth="92.0" text="Забыли пароль?" textFill="#60c7ff" />
-      <Label layoutX="52.0" layoutY="426.0" prefHeight="18.0" prefWidth="171.0" text="Авторизация администратора" textFill="#60c7ff" />
+        <Label layoutX="289.0" layoutY="426.0" prefHeight="18.0" prefWidth="92.0" text="Забыли пароль?" textFill="#60c7ff" />
+        <Label layoutX="52.0" layoutY="426.0" prefHeight="18.0" prefWidth="171.0" text="Авторизация администратора" textFill="#60c7ff" />
     </children>
 </AnchorPane>
