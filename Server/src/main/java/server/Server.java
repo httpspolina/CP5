@@ -3,6 +3,8 @@ package server;
 import java.io.*;
 import java.net.*;
 import java.sql.*;
+
+import server.db.DatabaseConnection;
 import server.db.SQLRegistration;
 import server.db.SQLAuthorization;
 import client.models.User;
@@ -36,6 +38,33 @@ public class Server {
                         String loginResult = SQLAuthorization.loginUser(user.getUsername(), user.getPassword());
                         objectOutput.writeObject(loginResult);
 
+                    }
+                    else if ("GET_FILMS".equals(operation)) {
+                        // Обработка запроса на получение списка фильмов
+                        try (Connection connection = DatabaseConnection.getConnection()) {
+                            String query = "SELECT title, country, year, director, roles, genre, description, poster_url FROM films";
+                            Statement statement = connection.createStatement();
+                            ResultSet resultSet = statement.executeQuery(query);
+
+                            // Собираем фильмы в список
+                            StringBuilder films = new StringBuilder();
+                            while (resultSet.next()) {
+                                films.append("Title: ").append(resultSet.getString("title"))
+                                        .append(", Country: ").append(resultSet.getString("country"))
+                                        .append(", Year: ").append(resultSet.getInt("year"))
+                                        .append(", Director: ").append(resultSet.getString("director"))
+                                        .append(", Roles: ").append(resultSet.getString("roles"))
+                                        .append(", Genre: ").append(resultSet.getString("genre"))
+                                        .append(", Description: ").append(resultSet.getString("description"))
+                                        .append(", Poster URL: ").append(resultSet.getString("poster_url"))
+                                        .append("\n");
+                            }
+
+                            objectOutput.writeObject(films.toString());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            objectOutput.writeObject("Ошибка при получении данных из базы.");
+                        }
                     } else {
                         objectOutput.writeObject("Неизвестная команда");
                     }
