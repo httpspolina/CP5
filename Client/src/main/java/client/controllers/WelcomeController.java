@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
@@ -21,6 +22,8 @@ public class WelcomeController {
     private static final int SERVER_PORT = 12345;
 
     private static String currentUser;
+    public Button addFilmButton;
+    public Label welcomeMessage;
 
     // Метод для установки текущего пользователя
     public static void setCurrentUser(String username) {
@@ -92,6 +95,22 @@ public class WelcomeController {
             stage.show();
         } catch (IOException e) {
             showErrorAlert("Не удалось вернуться на главную страницу.");
+        }
+    }
+
+    public void toAddFilmClick(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin/addFilm.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage(); // Создаем новое окно
+            stage.setScene(new Scene(root));
+            stage.setTitle("Добавить фильм");
+            stage.show();
+
+        } catch (IOException e) {
+            showErrorAlert("Не удалось загрузить окно добавления фильма.");
+            e.printStackTrace();
         }
     }
 }

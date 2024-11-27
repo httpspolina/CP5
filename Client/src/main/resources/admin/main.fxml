@@ -12,12 +12,12 @@
 
 <AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.WelcomeController">
     <children>
-        <VBox alignment="CENTER" layoutX="200.0" layoutY="100.0" spacing="20" />
-        <Label fx:id="welcomeMessage" text="Добрррррррро пожаловать, администратор!" />
         <Text fill="WHITE" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
             <font>
                 <Font name="Microsoft YaHei UI Light" size="48.0" />
             </font>
         </Text>
+        <Button fx:id="addFilmButton" layoutX="36.0" layoutY="150.0" text="Добавить фильм" onAction="#toAddFilmClick" />
+        <Label fx:id="welcomeMessage" text="Добро пожаловать, администратор!" layoutX="36.0" layoutY="100.0" />
     </children>
 </AnchorPane>

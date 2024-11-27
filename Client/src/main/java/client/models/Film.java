@@ -1,6 +1,8 @@
 package client.models;
+import java.io.Serializable;
 
-public class Film {
+public class Film implements Serializable {
+    private static final long serialVersionUID = 1L; // Рекомендуется добавить serialVersionUID
     private String title;
     private String country;
     private int year;

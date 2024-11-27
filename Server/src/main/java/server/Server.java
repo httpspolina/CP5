@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.sql.*;
 
+import client.models.Film;
 import server.db.DatabaseConnection;
 import server.db.SQLRegistration;
 import server.db.SQLAuthorization;
@@ -65,7 +66,31 @@ public class Server {
                             e.printStackTrace();
                             objectOutput.writeObject("Ошибка при получении данных из базы.");
                         }
-                    } else {
+                    }
+                    else if ("ADD_FILM".equals(operation)) {
+                        try {
+                            Film newFilm = (Film) objectInput.readObject();
+                            try (Connection connection = DatabaseConnection.getConnection()) {
+                                String query = "INSERT INTO films (title, country, year, director, roles, genre, description, poster_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                                PreparedStatement statement = connection.prepareStatement(query);
+                                statement.setString(1, newFilm.getTitle());
+                                statement.setString(2, newFilm.getCountry());
+                                statement.setInt(3, newFilm.getYear());
+                                statement.setString(4, newFilm.getDirector());
+                                statement.setString(5, newFilm.getRoles());
+                                statement.setString(6, newFilm.getGenre());
+                                statement.setString(7, newFilm.getDescription());
+                                statement.setString(8, newFilm.getPosterUrl());
+                                statement.executeUpdate();
+
+                                objectOutput.writeObject("Фильм добавлен успешно.");
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            objectOutput.writeObject("Ошибка при добавлении фильма.");
+                        }
+                    }
+                    else {
                         objectOutput.writeObject("Неизвестная команда");
                     }
                 } catch (IOException | ClassNotFoundException | SQLException e) {
