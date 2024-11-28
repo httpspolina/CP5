@@ -22,7 +22,7 @@ public class Server {
                     new Processor(clientSocket, objectInput, objectOutput).start();
                 } catch (Exception e) {
                     if (e instanceof InterruptedException) {
-                        break;
+                        return;
                     }
                     e.printStackTrace();
                 }

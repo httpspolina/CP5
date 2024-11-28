@@ -1,12 +1,12 @@
 package common.model.client;
 
-import common.model.Request;
+import common.model.SuccessResponse;
 import lombok.Data;
 
 @Data
-public class ClientRegisterRequest implements Request {
+public class ClientResponse implements SuccessResponse {
+    private Integer id;
     private String username;
-    private String password;
     private String name;
     private String email;
     private String phone;

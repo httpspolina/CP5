@@ -1,5 +1,6 @@
 package common.model;
 
-public interface Response {
-    boolean isSuccess();
+import java.io.Serializable;
+
+public interface Response extends Serializable {
 }
