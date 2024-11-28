@@ -1,6 +1,6 @@
-package common.model.admin;
+package common.command.admin;
 
-import common.model.Request;
+import common.command.Request;
 import lombok.Data;
 
 @Data

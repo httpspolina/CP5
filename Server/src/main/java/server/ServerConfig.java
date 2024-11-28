@@ -50,4 +50,8 @@ public class ServerConfig {
     public String getAdminCode() {
         return properties.getProperty("admin.code");
     }
+
+    public String getSupervisorCode() {
+        return properties.getProperty("supervisor.code");
+    }
 }

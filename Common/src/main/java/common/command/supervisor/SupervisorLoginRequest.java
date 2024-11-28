@@ -1,6 +1,6 @@
-package common.model.supervisor;
+package common.command.supervisor;
 
-import common.model.Request;
+import common.command.Request;
 import lombok.Data;
 
 @Data

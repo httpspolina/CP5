@@ -1,15 +1,18 @@
 package server;
 
-import common.model.ErrorResponse;
-import common.model.Response;
-import common.model.SuccessResponse;
-import common.model.admin.AdminLoginRequest;
-import common.model.admin.AdminRegisterRequest;
-import common.model.client.ClientLoginRequest;
-import common.model.client.ClientRegisterRequest;
-import common.model.supervisor.SupervisorLoginRequest;
-import common.model.supervisor.SupervisorRegisterRequest;
+import common.command.ErrorResponse;
+import common.command.Response;
+import common.command.admin.AdminLoginRequest;
+import common.command.admin.AdminRegisterRequest;
+import common.command.client.ClientLoginRequest;
+import common.command.client.ClientRegisterRequest;
+import common.command.supervisor.SupervisorLoginRequest;
+import common.command.supervisor.SupervisorRegisterRequest;
+import server.controller.AdminController;
+import server.controller.ClientController;
+import server.controller.SupervisorController;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -21,10 +24,18 @@ public class Processor extends Thread {
     private final ObjectInputStream objectInput;
     private final ObjectOutputStream objectOutput;
 
+    private final AdminController adminController;
+    private final ClientController clientController;
+    private final SupervisorController supervisorController;
+
     public Processor(Socket clientSocket, ObjectInputStream objectInput, ObjectOutputStream objectOutput) {
         this.clientSocket = clientSocket;
         this.objectInput = objectInput;
         this.objectOutput = objectOutput;
+
+        this.adminController = new AdminController();
+        this.clientController = new ClientController();
+        this.supervisorController = new SupervisorController();
     }
 
     public void run() {
@@ -32,31 +43,33 @@ public class Processor extends Thread {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Response res = switch (objectInput.readObject()) {
-                    case AdminLoginRequest req -> processAdminLoginRequest(req);
-                    case AdminRegisterRequest req -> processAdminRegisterRequest(req);
-                    case ClientLoginRequest req -> processClientLoginRequest(req);
-                    case ClientRegisterRequest req -> processClientRegisterRequest(req);
-                    case SupervisorLoginRequest req -> processSupervisorLoginRequest(req);
-                    case SupervisorRegisterRequest req -> processSupervisorRegisterRequest(req);
+                    case AdminLoginRequest req -> adminController.processAdminLoginRequest(req);
+                    case AdminRegisterRequest req -> adminController.processAdminRegisterRequest(req);
+                    case ClientLoginRequest req -> clientController.processClientLoginRequest(req);
+                    case ClientRegisterRequest req -> clientController.processClientRegisterRequest(req);
+                    case SupervisorLoginRequest req -> supervisorController.processSupervisorLoginRequest(req);
+                    case SupervisorRegisterRequest req -> supervisorController.processSupervisorRegisterRequest(req);
                     default -> ErrorResponse.INSTANCE;
                 };
                 objectOutput.writeObject(res);
-                if (res instanceof SuccessResponse) {
-                    break;
-                }
+            } catch (EOFException e) {
+                close();
+                return;
             } catch (Exception e) {
                 if (e instanceof InterruptedException) {
+                    close();
                     return;
                 }
                 e.printStackTrace();
             }
         }
+    }
 
-        // Очистка ресурсов
+    private void close() {
         try {
-            this.clientSocket.close();
-            this.objectInput.close();
-            this.objectOutput.close();
+            if (this.clientSocket != null) this.clientSocket.close();
+            if (this.objectInput != null) this.objectInput.close();
+            if (this.objectOutput != null) this.objectOutput.close();
         } catch (IOException e) {
         }
     }

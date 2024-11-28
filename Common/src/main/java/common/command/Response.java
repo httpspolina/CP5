@@ -1,4 +1,4 @@
-package common.model;
+package common.command;
 
 import java.io.Serializable;
 

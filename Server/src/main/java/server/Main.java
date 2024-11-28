@@ -5,7 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class Main {
     private static final int PORT = ServerConfig.getInstance().getServerPort();
 
     public static void main(String[] args) throws Exception {

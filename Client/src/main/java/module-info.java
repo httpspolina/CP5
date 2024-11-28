@@ -1,4 +1,5 @@
 module Client {
+    requires Common;
     requires javafx.base;
     requires javafx.controls;
     requires javafx.fxml;
@@ -7,7 +8,6 @@ module Client {
     requires javafx.swing;
     requires javafx.web;
     requires java.sql;
-
     opens client;
     opens client.controllers;
 }
