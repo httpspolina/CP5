@@ -10,6 +10,10 @@ import java.io.IOException;
 
 public class Main extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         // Загружаем FXML файл
@@ -21,9 +25,5 @@ public class Main extends Application {
         primaryStage.setTitle("Авторизация/Регистрация");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

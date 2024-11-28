@@ -5,15 +5,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.WelcomeController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="560.0" prefWidth="800.0"
+            style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="client.controllers.WelcomeController">
     <children>
-        <VBox alignment="CENTER" layoutX="200.0" layoutY="100.0" spacing="20" />
+        <VBox alignment="CENTER" layoutX="200.0" layoutY="100.0" spacing="20"/>
         <Text fill="WHITE" layoutX="50.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
             <font>
-                <Font name="Microsoft YaHei UI Light" size="48.0" />
+                <Font name="Microsoft YaHei UI Light" size="48.0"/>
             </font>
         </Text>
-        <Button fx:id="toFilms" layoutX="237.0" layoutY="100.0" mnemonicParsing="false" onAction="#toFilmsClick" prefHeight="26.0" prefWidth="325.0" text="Перейти к афише" />
+        <Button fx:id="toFilms" layoutX="237.0" layoutY="100.0" mnemonicParsing="false" onAction="#toFilmsClick"
+                prefHeight="26.0" prefWidth="325.0" text="Перейти к афише"/>
     </children>
 </AnchorPane>

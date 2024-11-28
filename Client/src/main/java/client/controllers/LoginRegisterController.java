@@ -6,32 +6,32 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class LoginRegisterController {
 
-    public Button loginButtonMenu;
-    public Button registerButtonMenu;
-    public Button enterButton;
-
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private TextField adminCodeField;
-
     private static final String SERVER_ADDRESS = ClientConfig.getInstance().getServerHost();
     private static final int SERVER_PORT = ClientConfig.getInstance().getServerPort();
     private static final String ADMIN_CODE = "pass123";
+    public Button loginButtonMenu;
+    public Button registerButtonMenu;
+    public Button enterButton;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private TextField adminCodeField;
 
     private void switchPage(String fxmlFile) {
         try {

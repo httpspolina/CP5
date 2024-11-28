@@ -1,11 +1,11 @@
 module Client {
-    requires transitive javafx.base;
-    requires transitive javafx.controls;
-    requires transitive javafx.fxml;
-    requires transitive javafx.graphics;
-    requires transitive javafx.media;
-    requires transitive javafx.swing;
-    requires transitive javafx.web;
+    requires javafx.base;
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires javafx.graphics;
+    requires javafx.media;
+    requires javafx.swing;
+    requires javafx.web;
     requires java.sql;
 
     opens client;

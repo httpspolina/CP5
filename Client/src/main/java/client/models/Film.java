@@ -1,4 +1,5 @@
 package client.models;
+
 import java.io.Serializable;
 
 public class Film implements Serializable {
