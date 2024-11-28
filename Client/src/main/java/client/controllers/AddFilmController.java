@@ -1,5 +1,6 @@
 package client.controllers;
 
+import client.ClientConfig;
 import client.models.Film;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,8 +14,8 @@ import java.net.Socket;
 
 public class AddFilmController {
 
-    private static final String SERVER_ADDRESS = "localhost";
-    private static final int SERVER_PORT = 12345;
+    private static final String SERVER_ADDRESS = ClientConfig.getInstance().getServerHost();
+    private static final int SERVER_PORT = ClientConfig.getInstance().getServerPort();
     public Button addFilmButton;
 
     @FXML

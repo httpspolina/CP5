@@ -1,5 +1,6 @@
 package client.controllers;
 
+import client.ClientConfig;
 import client.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,8 +29,8 @@ public class LoginRegisterController {
     @FXML
     private TextField adminCodeField;
 
-    private static final String SERVER_ADDRESS = "localhost";
-    private static final int SERVER_PORT = 12345;
+    private static final String SERVER_ADDRESS = ClientConfig.getInstance().getServerHost();
+    private static final int SERVER_PORT = ClientConfig.getInstance().getServerPort();
     private static final String ADMIN_CODE = "pass123";
 
     private void switchPage(String fxmlFile) {
