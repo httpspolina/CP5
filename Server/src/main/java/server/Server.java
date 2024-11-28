@@ -11,7 +11,7 @@ import server.db.SQLAuthorization;
 import client.models.User;
 
 public class Server {
-    private static final int PORT = 12345;
+    private static final int PORT = ServerConfig.getInstance().getServerPort();
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -39,8 +39,7 @@ public class Server {
                         String loginResult = SQLAuthorization.loginUser(user.getUsername(), user.getPassword());
                         objectOutput.writeObject(loginResult);
 
-                    }
-                    else if ("GET_FILMS".equals(operation)) {
+                    } else if ("GET_FILMS".equals(operation)) {
                         // Обработка запроса на получение списка фильмов
                         try (Connection connection = DatabaseConnection.getConnection()) {
                             String query = "SELECT title, country, year, director, roles, genre, description, poster_url FROM films";
@@ -66,8 +65,7 @@ public class Server {
                             e.printStackTrace();
                             objectOutput.writeObject("Ошибка при получении данных из базы.");
                         }
-                    }
-                    else if ("ADD_FILM".equals(operation)) {
+                    } else if ("ADD_FILM".equals(operation)) {
                         try {
                             Film newFilm = (Film) objectInput.readObject();
                             try (Connection connection = DatabaseConnection.getConnection()) {
@@ -89,8 +87,7 @@ public class Server {
                             e.printStackTrace();
                             objectOutput.writeObject("Ошибка при добавлении фильма.");
                         }
-                    }
-                    else {
+                    } else {
                         objectOutput.writeObject("Неизвестная команда");
                     }
                 } catch (IOException | ClassNotFoundException | SQLException e) {

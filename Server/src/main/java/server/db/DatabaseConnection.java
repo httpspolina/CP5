@@ -1,12 +1,14 @@
 package server.db;
 
+import server.ServerConfig;
+
 import java.sql.*;
 
 public class DatabaseConnection {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/sample1";  // Убедитесь, что название базы данных правильное
-    private static final String DB_USER = "root";  // Убедитесь, что имя пользователя правильное
-    private static final String DB_PASSWORD = "pc4w7wNR6tehEGY7";  // Убедитесь, что пароль правильный
+    private static final String DB_URL = ServerConfig.getInstance().getDbUrl();
+    private static final String DB_USER = ServerConfig.getInstance().getDbUser();
+    private static final String DB_PASSWORD = ServerConfig.getInstance().getDbPassword();
 
     // Метод для получения соединения с базой данных
     public static Connection getConnection() throws SQLException {
