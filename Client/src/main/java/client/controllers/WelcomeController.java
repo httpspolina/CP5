@@ -5,16 +5,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import client.models.Film;
 
 public class WelcomeController {
 
@@ -25,13 +27,13 @@ public class WelcomeController {
     public Button addFilmButton;
     public Label welcomeMessage;
 
+    @FXML
+    private ListView<String> filmListView; // Изменено с TextArea на ListView
+
     // Метод для установки текущего пользователя
     public static void setCurrentUser(String username) {
         currentUser = username;
     }
-
-    @FXML
-    private TextArea filmTextArea;
 
     private void showErrorAlert(String errorMessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -71,17 +73,77 @@ public class WelcomeController {
             // Отправляем запрос на получение фильмов
             objectOutput.writeObject("GET_FILMS");
 
-            // Получаем список фильмов
+            // Получаем список фильмов (предположим, данные приходят как строки, разделенные новой строкой)
             String filmsData = (String) objectInput.readObject();
 
-            // Выводим данные в TextArea
-            filmTextArea.setText(filmsData);
+            // Преобразуем данные в список и добавляем в ListView
+            List<String> films = Stream.of(filmsData.split("\n"))
+                    .collect(Collectors.toList());
+            filmListView.getItems().setAll(films);
+
+            // Устанавливаем обработчик клика по элементам списка
+            filmListView.setOnMouseClicked(event -> {
+                String selectedFilm = filmListView.getSelectionModel().getSelectedItem();
+                if (selectedFilm != null) {
+                    System.out.println("Selected film: " + selectedFilm);
+                    // Логика перехода на страницу с подробностями о фильме
+                    openFilmDetails(selectedFilm);
+                }
+            });
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             showErrorAlert("Ошибка при получении данных с сервера.");
         }
     }
+
+    private void openFilmDetails(String filmTitle) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/filmDetails.fxml"));
+            Parent root = loader.load();
+
+            // Получаем контроллер новой страницы
+            FilmDetailsController controller = loader.getController();
+
+            // Получаем подробную информацию о фильме
+            String filmDetails = getFilmDetails(filmTitle);
+
+            // Устанавливаем информацию о фильме в TextArea
+            controller.setFilmDetails(filmDetails);
+
+            // Название фильма извлекаем из начала строки или другим способом
+            String filmTitleOnly = extractFilmTitle(filmDetails);
+
+            // Создаем новое окно
+            Stage stage = (Stage) filmListView.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle(filmTitleOnly); // Только название фильма в заголовке окна
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Не удалось загрузить страницу с подробностями фильма.");
+        }
+    }
+
+    // Вспомогательный метод для извлечения названия фильма
+    private String extractFilmTitle(String filmDetails) {
+        // Предполагаем, что название фильма находится после "Title: " и до первой запятой
+        if (filmDetails.startsWith("Title: ")) {
+            int startIndex = "Title: ".length();
+            int endIndex = filmDetails.indexOf(",", startIndex);
+            if (endIndex != -1) {
+                return filmDetails.substring(startIndex, endIndex).trim();
+            }
+        }
+        // Если структура данных изменилась, возвращаем всю строку на случай ошибки
+        return filmDetails;
+    }
+
+    private String getFilmDetails(String filmTitle) {
+        return filmTitle;
+    }
+
 
     // Обработчик перехода назад на страницу "main.fxml"
     public void toBackClick(ActionEvent actionEvent) {
