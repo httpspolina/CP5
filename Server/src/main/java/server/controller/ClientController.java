@@ -2,21 +2,20 @@ package server.controller;
 
 import common.command.CommonErrorResponse;
 import common.command.Response;
-import common.command.client.ClientLoginRequest;
-import common.command.client.ClientRegisterRequest;
-import common.command.client.ClientResponse;
+import common.command.client.*;
 import common.model.Client;
+import common.model.Film;
 import common.model.UserRole;
 import server.db.ClientRepository;
+import server.db.FilmRepository;
 import server.db.PasswordHashing;
+
+import java.util.List;
 
 public class ClientController {
 
-    private final ClientRepository clientRepository;
-
-    public ClientController() {
-        this.clientRepository = new ClientRepository();
-    }
+    private final ClientRepository clientRepository = new ClientRepository();
+    private final FilmRepository filmRepository = new FilmRepository();
 
     public Response login(ClientLoginRequest req) throws Exception {
         Client foundClient = clientRepository.findByUsername(req.getUsername().toLowerCase());
@@ -44,6 +43,11 @@ public class ClientController {
         }
         Client foundClient = clientRepository.findByUsername(req.getUsername().toLowerCase());
         return new ClientResponse(foundClient);
+    }
+
+    public Response getAllFilms(GetAllFilmsRequest req) throws Exception {
+        List<Film> films = filmRepository.findAll();
+        return new GetAllFilmsResponse(films);
     }
 
 }
