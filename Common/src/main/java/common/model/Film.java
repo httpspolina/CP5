@@ -2,6 +2,8 @@ package common.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Film {
     private Integer id;
@@ -13,4 +15,7 @@ public class Film {
     private String genre;
     private String description;
     private String posterUrl;
+
+    private Double rating;
+    private List<Review> reviews;
 }

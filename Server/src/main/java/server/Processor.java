@@ -72,7 +72,8 @@ public class Processor extends Thread {
                         } else if (currentUser.getRole() == UserRole.CLIENT) {
                             Client currentClient = (Client) currentUser;
                             res = switch (o) {
-                                case GetAllFilmsRequest req -> clientController.getAllFilms(req);
+                                case FindAllFilmsRequest req -> clientController.findAllFilms(req);
+                                case FindFilmByIdRequest req -> clientController.findFilmById(req);
                                 case AddReviewRequest req -> clientController.addReview(currentClient.getId(), req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };

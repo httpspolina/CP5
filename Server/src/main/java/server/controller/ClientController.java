@@ -6,6 +6,7 @@ import common.command.SuccessResponse;
 import common.command.client.*;
 import common.model.Client;
 import common.model.Film;
+import common.model.Review;
 import common.model.UserRole;
 import server.db.ClientRepository;
 import server.db.FilmRepository;
@@ -48,14 +49,29 @@ public class ClientController {
         return new ClientResponse(foundClient);
     }
 
-    public Response getAllFilms(GetAllFilmsRequest req) throws Exception {
+    public Response findAllFilms(FindAllFilmsRequest req) throws Exception {
         List<Film> films = filmRepository.findAll();
-        return new GetAllFilmsResponse(films);
+        return new FilmsResponse(films);
+    }
+
+    public Response findFilmById(FindFilmByIdRequest req) throws Exception {
+        Film film = filmRepository.findById(req.getFilmId());
+        if (film == null) {
+            return new CommonErrorResponse("Не удалось найти фильм");
+        }
+        return new FilmResponse(film);
     }
 
     public Response addReview(Integer currentClientId, AddReviewRequest req) {
-        boolean success = reviewRepository.create(currentClientId, req);
-        if (success) return SuccessResponse.INSTANCE;
-        else return new CommonErrorResponse("Не удалось добавить отзыв");
+        Review review = new Review();
+        review.setFilmId(req.getFilmId());
+        review.setClientId(currentClientId);
+        review.setRating(req.getRating());
+        review.setDescription(req.getDescription());
+        Integer newReviewId = reviewRepository.create(review);
+        if (newReviewId == null) {
+            return new CommonErrorResponse("Не удалось добавить отзыв");
+        }
+        return SuccessResponse.INSTANCE;
     }
 }

@@ -11,6 +11,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllFilmsResponse implements SuccessResponse {
+public class FilmsResponse implements SuccessResponse {
     private List<Film> films;
 }

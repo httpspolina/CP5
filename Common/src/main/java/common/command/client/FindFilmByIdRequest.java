@@ -4,5 +4,6 @@ import common.command.Request;
 import lombok.Data;
 
 @Data
-public class GetAllFilmsRequest implements Request {
+public class FindFilmByIdRequest implements Request {
+    private Integer filmId;
 }
