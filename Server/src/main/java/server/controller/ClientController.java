@@ -2,6 +2,7 @@ package server.controller;
 
 import common.command.CommonErrorResponse;
 import common.command.Response;
+import common.command.SuccessResponse;
 import common.command.client.*;
 import common.model.Client;
 import common.model.Film;
@@ -9,6 +10,7 @@ import common.model.UserRole;
 import server.db.ClientRepository;
 import server.db.FilmRepository;
 import server.db.PasswordHashing;
+import server.db.ReviewRepository;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class ClientController {
 
     private final ClientRepository clientRepository = new ClientRepository();
     private final FilmRepository filmRepository = new FilmRepository();
+    private final ReviewRepository reviewRepository = new ReviewRepository();
 
     public Response login(ClientLoginRequest req) throws Exception {
         Client foundClient = clientRepository.findByUsername(req.getUsername().toLowerCase());
@@ -50,4 +53,9 @@ public class ClientController {
         return new GetAllFilmsResponse(films);
     }
 
+    public Response addReview(Integer currentClientId, AddReviewRequest req) {
+        boolean success = reviewRepository.create(currentClientId, req);
+        if (success) return SuccessResponse.INSTANCE;
+        else return new CommonErrorResponse("Не удалось добавить отзыв");
+    }
 }

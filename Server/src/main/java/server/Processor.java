@@ -5,10 +5,7 @@ import common.command.Response;
 import common.command.admin.AdminLoginRequest;
 import common.command.admin.AdminRegisterRequest;
 import common.command.admin.AdminResponse;
-import common.command.client.ClientLoginRequest;
-import common.command.client.ClientRegisterRequest;
-import common.command.client.ClientResponse;
-import common.command.client.GetAllFilmsRequest;
+import common.command.client.*;
 import common.command.supervisor.SupervisorLoginRequest;
 import common.command.supervisor.SupervisorRegisterRequest;
 import common.command.supervisor.SupervisorResponse;
@@ -76,6 +73,7 @@ public class Processor extends Thread {
                             Client currentClient = (Client) currentUser;
                             res = switch (o) {
                                 case GetAllFilmsRequest req -> clientController.getAllFilms(req);
+                                case AddReviewRequest req -> clientController.addReview(currentClient.getId(), req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };
                         } else if (currentUser.getRole() == UserRole.SUPERVISOR) {
