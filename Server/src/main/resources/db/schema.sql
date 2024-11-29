@@ -1,3 +1,4 @@
+drop database cp5;
 create database cp5;
 use cp5;
 

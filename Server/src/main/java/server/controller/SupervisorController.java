@@ -13,11 +13,7 @@ import server.db.UserRepository;
 
 public class SupervisorController {
 
-    private final UserRepository userRepository;
-
-    public SupervisorController() {
-        this.userRepository = new UserRepository();
-    }
+    private final UserRepository userRepository = new UserRepository();
 
     public Response login(SupervisorLoginRequest req) throws Exception {
         User foundUser = userRepository.findByUsername(req.getUsername().toLowerCase());

@@ -9,7 +9,7 @@
             style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1"
             fx:controller="client.controllers.LoginRegisterController">
     <children>
-        <Button fx:id="loginButtonMenu" layoutX="52.0" layoutY="52.0" onAction="#onAuthorizationClick" prefHeight="26.0"
+        <Button fx:id="loginButtonMenu" layoutX="52.0" layoutY="52.0" onAction="#onLoginClick" prefHeight="26.0"
                 prefWidth="160.0" style="-fx-background-color: FFFFFF;" text="Вход">
             <font>
                 <Font name="Microsoft YaHei" size="12.0"/>

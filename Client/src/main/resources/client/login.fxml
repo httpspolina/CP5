@@ -13,7 +13,7 @@
         <Button fx:id="registerButtonMenu" layoutX="222.0" layoutY="52.0" onAction="#onRegisterClick" prefHeight="26.0"
                 prefWidth="160.0" style="-fx-background-color: FFFFFF;" text="Регистрация"/>
 
-        <Button fx:id="loginButtonMenu" layoutX="52.0" layoutY="52.0" onAction="#onAuthorizationClick" prefHeight="26.0"
+        <Button fx:id="loginButtonMenu" layoutX="52.0" layoutY="52.0" onAction="#onLoginClick" prefHeight="26.0"
                 prefWidth="160.0" style="-fx-background-color: FFFFFF;" text="Вход">
             <font>
                 <Font name="Microsoft YaHei" size="12.0"/>
@@ -49,7 +49,8 @@
         <Label layoutX="52.0" layoutY="350.0" prefHeight="18.0" prefWidth="48.0" text="Пароль:" textFill="WHITE"/>
 
         <Button fx:id="enterButton" layoutX="147.0" layoutY="466.0" mnemonicParsing="false"
-                onAction="#onLoginSubmitClick" prefHeight="38.0" prefWidth="140.0" style="-fx-background-color: F8B179;"
+                onAction="#onClientLoginSubmit" prefHeight="38.0" prefWidth="140.0"
+                style="-fx-background-color: F8B179;"
                 text="Войти">
             <font>
                 <Font size="14.0"/>

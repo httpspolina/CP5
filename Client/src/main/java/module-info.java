@@ -8,6 +8,7 @@ module Client {
     requires javafx.swing;
     requires javafx.web;
     requires java.sql;
+    requires static lombok;
     opens client;
     opens client.controllers;
 }

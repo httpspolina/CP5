@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class Main extends Application {
 
     public static void main(String[] args) {
@@ -15,14 +13,13 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        // Загружаем FXML файл
+    public void start(Stage primaryStage) throws Exception {
+        PrimaryStageManager.INSTANCE.initialize(primaryStage);
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/login.fxml"));
         AnchorPane root = loader.load();
 
-        // Создаем сцену и показываем ее
         Scene scene = new Scene(root, 800, 560);
-        primaryStage.setTitle("Авторизация/Регистрация");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

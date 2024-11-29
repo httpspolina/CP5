@@ -13,11 +13,7 @@ import server.db.UserRepository;
 
 public class AdminController {
 
-    private final UserRepository userRepository;
-
-    public AdminController() {
-        this.userRepository = new UserRepository();
-    }
+    private final UserRepository userRepository = new UserRepository();
 
     public Response login(AdminLoginRequest req) throws Exception {
         User foundUser = userRepository.findByUsername(req.getUsername().toLowerCase());
