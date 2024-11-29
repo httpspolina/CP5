@@ -22,8 +22,8 @@ import java.util.stream.Stream;
 
 public class WelcomeController {
 
-    private static final String SERVER_ADDRESS = ClientConfig.getInstance().getServerHost();
-    private static final int SERVER_PORT = ClientConfig.getInstance().getServerPort();
+    private static final String SERVER_ADDRESS = ClientConfig.INSTANCE.getServerHost();
+    private static final int SERVER_PORT = ClientConfig.INSTANCE.getServerPort();
 
     private static String currentUser;
     public Button addFilmButton;

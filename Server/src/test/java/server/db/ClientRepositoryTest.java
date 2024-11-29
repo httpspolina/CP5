@@ -1,7 +1,7 @@
 package server.db;
 
 import common.model.Client;
-import common.model.Role;
+import common.model.UserRole;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -17,12 +17,12 @@ class ClientRepositoryTest {
         Client newClient = new Client();
         newClient.setUsername(UUID.randomUUID().toString());
         newClient.setPassword(PasswordHashing.hashPassword(UUID.randomUUID().toString()));
-        newClient.setRole(Role.client);
+        newClient.setRole(UserRole.CLIENT);
         newClient.setName(UUID.randomUUID().toString());
         newClient.setEmail(UUID.randomUUID().toString());
         newClient.setPhone(UUID.randomUUID().toString());
 
-        Integer newClientId = clientRepository.register(newClient);
+        Integer newClientId = clientRepository.create(newClient);
         assertThat(newClientId).isNotNull().isPositive();
 
         Client foundClient = clientRepository.findByUsername(newClient.getUsername());

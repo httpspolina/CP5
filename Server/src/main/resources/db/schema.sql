@@ -6,8 +6,8 @@ create table user
     id       int          not null primary key auto_increment,
     username varchar(255) not null unique,
     password varchar(255) not null,
-    role     varchar(255) not null default 'client'
-        check (role = 'client' or role = 'admin' or role = 'supervisor')
+    role     varchar(255) not null default 'CLIENT'
+        check (role = 'CLIENT' or role = 'ADMIN' or role = 'SUPERVISOR')
 );
 
 create table client
@@ -98,8 +98,8 @@ create table `order`
     session_id        int          not null,
     seat_index        int          not null
         check (seat_index > 0),
-    status            varchar(255) not null default 'payed'
-        check (status = 'payed' or status = 'canceled'),
+    status            varchar(255) not null default 'PAYED'
+        check (status = 'PAYED' or status = 'CANCELED'),
     created_at        datetime     not null default now(),
     constraint foreign key (client_id) references client (id),
     constraint foreign key (payment_method_id) references payment_method (id),

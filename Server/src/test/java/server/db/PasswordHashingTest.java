@@ -15,9 +15,11 @@ class PasswordHashingTest {
         String hashedPassword2 = PasswordHashing.hashPassword(plainPassword1);
         assertThat(hashedPassword1).isNotEqualTo(hashedPassword2);
         assertThat(PasswordHashing.verifyPassword(plainPassword1, hashedPassword1)).isTrue();
+        assertThat(PasswordHashing.verifyPassword(plainPassword1, hashedPassword2)).isTrue();
 
         String plainPassword2 = UUID.randomUUID().toString();
         assertThat(PasswordHashing.verifyPassword(plainPassword2, hashedPassword1)).isFalse();
+        assertThat(PasswordHashing.verifyPassword(plainPassword2, hashedPassword2)).isFalse();
     }
 
 }

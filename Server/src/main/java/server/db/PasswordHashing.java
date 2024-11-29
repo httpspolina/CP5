@@ -2,9 +2,7 @@ package server.db;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
 
 public class PasswordHashing {
@@ -16,7 +14,7 @@ public class PasswordHashing {
     private PasswordHashing() {
     }
 
-    public static String hashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static String hashPassword(String password) throws Exception {
         byte[] salt = generateSalt();
 
         PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, ITERATIONS, KEY_LENGTH);
@@ -29,10 +27,10 @@ public class PasswordHashing {
         return saltBase64 + ":" + hashedPasswordBase64;
     }
 
-    public static boolean verifyPassword(String password, String stored) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String[] parts = stored.split(":");
+    public static boolean verifyPassword(String password, String hash) throws Exception {
+        String[] parts = hash.split(":");
         if (parts.length != 2) {
-            throw new IllegalArgumentException("Invalid stored password format");
+            throw new IllegalArgumentException("Invalid hashed password format");
         }
 
         String saltBase64 = parts[0];
@@ -48,7 +46,7 @@ public class PasswordHashing {
         return hashedPasswordBase64.equals(storedHashBase64);
     }
 
-    private static byte[] generateSalt() throws NoSuchAlgorithmException {
+    private static byte[] generateSalt() throws Exception {
         SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
         secureRandom.nextBytes(salt);

@@ -1,7 +1,7 @@
 package server.db;
 
-import common.model.Role;
 import common.model.User;
+import common.model.UserRole;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -17,9 +17,9 @@ class UserRepositoryTest {
         User newUser = new User();
         newUser.setUsername(UUID.randomUUID().toString());
         newUser.setPassword(PasswordHashing.hashPassword(UUID.randomUUID().toString()));
-        newUser.setRole(Role.admin);
+        newUser.setRole(UserRole.ADMIN);
 
-        Integer newUserId = userRepository.register(newUser);
+        Integer newUserId = userRepository.create(newUser);
         assertThat(newUserId).isNotNull().isPositive();
 
         User foundUser = userRepository.findByUsername(newUser.getUsername());

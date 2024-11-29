@@ -6,28 +6,16 @@ import java.util.Properties;
 
 public class ServerConfig {
 
-    private static ServerConfig INSTANCE;
+    public static ServerConfig INSTANCE = new ServerConfig();
 
-    private Properties properties;
+    private final Properties properties;
 
     private ServerConfig() {
-        loadProperties();
-    }
-
-    public static synchronized ServerConfig getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ServerConfig();
-        }
-        return INSTANCE;
-    }
-
-    private void loadProperties() {
-        properties = new Properties();
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("server.properties")) {
-            properties.load(inputStream);
+            this.properties = new Properties();
+            this.properties.load(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+            throw new RuntimeException(e);
         }
     }
 

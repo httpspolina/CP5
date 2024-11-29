@@ -1,12 +1,12 @@
 package server.controller;
 
-import common.command.ErrorResponse;
+import common.command.CommonErrorResponse;
 import common.command.Response;
-import common.command.SuccessResponse;
 import common.command.admin.AdminLoginRequest;
 import common.command.admin.AdminRegisterRequest;
-import common.model.Role;
+import common.command.admin.AdminResponse;
 import common.model.User;
+import common.model.UserRole;
 import server.ServerConfig;
 import server.db.PasswordHashing;
 import server.db.UserRepository;
@@ -19,45 +19,32 @@ public class AdminController {
         this.userRepository = new UserRepository();
     }
 
-    public Response processAdminLoginRequest(AdminLoginRequest req) {
-        try {
-            User foundUser = userRepository.findByUsername(req.getUsername().toLowerCase());
-            if (foundUser == null || foundUser.getRole() != Role.admin || !PasswordHashing.verifyPassword(req.getPassword(), foundUser.getPassword())) {
-                System.out.println("Неверное имя пользователя или пароль");
-                return ErrorResponse.INSTANCE;
-            }
-            return SuccessResponse.INSTANCE;
-        } catch (Exception e) {
-            e.printStackTrace();
+    public Response login(AdminLoginRequest req) throws Exception {
+        User foundUser = userRepository.findByUsername(req.getUsername().toLowerCase());
+        if (foundUser == null || foundUser.getRole() != UserRole.ADMIN || !PasswordHashing.verifyPassword(req.getPassword(), foundUser.getPassword())) {
+            return new CommonErrorResponse("Неправильное имя пользователя или пароль");
         }
-        return ErrorResponse.INSTANCE;
+        return new AdminResponse(foundUser);
     }
 
-    public Response processAdminRegisterRequest(AdminRegisterRequest req) {
-        try {
-            if (!req.getCode().equals(ServerConfig.getInstance().getAdminCode())) {
-                System.out.println("Неправильный код администратора");
-                return ErrorResponse.INSTANCE;
-            }
-            User foundUser = userRepository.findByUsername(req.getUsername().toLowerCase());
-            if (foundUser != null) {
-                System.out.println("Пользователь с таким именем уже существует");
-                return ErrorResponse.INSTANCE;
-            }
-            User newUser = new User();
-            newUser.setUsername(req.getUsername().toLowerCase());
-            newUser.setPassword(PasswordHashing.hashPassword(req.getPassword()));
-            newUser.setRole(Role.admin);
-            Integer newUserId = userRepository.register(newUser);
-            if (newUserId == null) {
-                System.out.println("Не удалось создать администратора");
-                return ErrorResponse.INSTANCE;
-            }
-            return SuccessResponse.INSTANCE;
-        } catch (Exception e) {
-            e.printStackTrace();
+    public Response register(AdminRegisterRequest req) throws Exception {
+        if (!req.getCode().equals(ServerConfig.INSTANCE.getAdminCode())) {
+            return new CommonErrorResponse("Неправильный код администратора");
         }
-        return ErrorResponse.INSTANCE;
+        User existingUser = userRepository.findByUsername(req.getUsername().toLowerCase());
+        if (existingUser != null) {
+            return new CommonErrorResponse("Пользователь с таким именем уже существует");
+        }
+        User newUser = new User();
+        newUser.setUsername(req.getUsername().toLowerCase());
+        newUser.setPassword(PasswordHashing.hashPassword(req.getPassword()));
+        newUser.setRole(UserRole.ADMIN);
+        Integer newUserId = userRepository.create(newUser);
+        if (newUserId == null) {
+            return new CommonErrorResponse("Не удалось создать администратора");
+        }
+        User foundUser = userRepository.findByUsername(req.getUsername().toLowerCase());
+        return new AdminResponse(foundUser);
     }
 
 }

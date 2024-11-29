@@ -14,8 +14,8 @@ import java.net.Socket;
 
 public class AddFilmController {
 
-    private static final String SERVER_ADDRESS = ClientConfig.getInstance().getServerHost();
-    private static final int SERVER_PORT = ClientConfig.getInstance().getServerPort();
+    private static final String SERVER_ADDRESS = ClientConfig.INSTANCE.getServerHost();
+    private static final int SERVER_PORT = ClientConfig.INSTANCE.getServerPort();
     public Button addFilmButton;
 
     @FXML
