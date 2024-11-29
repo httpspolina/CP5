@@ -5,12 +5,16 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="560.0" prefWidth="800.0"
-            style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1"
+<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="client.controllers.LoginRegisterController">
     <children>
-        <Button fx:id="loginButtonMenu" layoutX="52.0" layoutY="52.0" onAction="#onLoginClick" prefHeight="26.0"
-                prefWidth="160.0" style="-fx-background-color: FFFFFF;" text="Вход">
+
+        <Button layoutX="222.0" layoutY="52.0" onAction="#goToClientRegisterPage" prefHeight="26.0" prefWidth="160.0"
+                style="-fx-background-color: FFFFFF;" text="Регистрация"/>
+
+        <Button layoutX="52.0" layoutY="52.0" onAction="#goToClientLoginPage" prefHeight="26.0" prefWidth="160.0"
+                style="-fx-background-color: FFFFFF;" text="Вход">
             <font>
                 <Font name="Microsoft YaHei" size="12.0"/>
             </font>
@@ -19,7 +23,7 @@
         <ImageView fitHeight="560.0" fitWidth="375.0" layoutX="491.0" pickOnBounds="true" preserveRatio="true"
                    AnchorPane.rightAnchor="1.0">
             <image>
-                <Image url="@img/ben-tofan-LCIWUkPvcak-unsplash.jpg"/>
+                <Image url="@../img/ben-tofan-LCIWUkPvcak-unsplash.jpg"/>
             </image>
         </ImageView>
 
@@ -30,7 +34,7 @@
         </Text>
 
         <Text fill="WHITE" layoutX="52.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Зарегистрируйтесь, чтобы продолжить">
+              text="Регистрация клиента">
             <font>
                 <Font name="Microsoft YaHei" size="12.0"/>
             </font>
@@ -44,23 +48,21 @@
 
         <Label layoutX="52.0" layoutY="350.0" prefHeight="18.0" prefWidth="48.0" text="Пароль:" textFill="WHITE"/>
 
-        <!-- Используем PasswordField для пароля -->
-        <PasswordField fx:id="passwordField" layoutX="52.0" layoutY="376.0" prefHeight="46.0" prefWidth="330.0"
-                       promptText="Введите пароль"/>
-        <Label layoutX="289.0" layoutY="426.0" prefHeight="18.0" prefWidth="92.0" text="Забыли пароль?"
-               textFill="#60c7ff"/>
-        <Label fx:id="registerAdminButton" layoutX="52.0" layoutY="426.0" onMouseClicked="#onRegisterAdminClick"
-               prefHeight="18.0" prefWidth="171.0" style="-fx-cursor: hand; -fx-underline: true;"
-               text="Регистрация администратора" textFill="#60c7ff"/>
-        <Button fx:id="registerButtonMenu" layoutX="223.0" layoutY="52.0" onAction="#onRegisterClick" prefHeight="26.0"
-                prefWidth="160.0" style="-fx-background-color: FFFFFF;" text="Регистрация"/>
-        <Button fx:id="registerButton" layoutX="124.0" layoutY="476.0" mnemonicParsing="false"
-                onAction="#onRegisterSubmitClick" prefHeight="38.0" prefWidth="200.0"
-                style="-fx-background-color: F8B179;" text="Зарегистрироваться">
+        <Button fx:id="enterButton" layoutX="86.0" layoutY="488.0" mnemonicParsing="false"
+                onAction="#onClientRegisterSubmit" prefHeight="38.0" prefWidth="250.0"
+                style="-fx-background-color: F8B179;" text="Зарегистрироваться как клиент">
             <font>
                 <Font size="14.0"/>
             </font>
         </Button>
 
+        <!-- Используем PasswordField для пароля -->
+        <PasswordField fx:id="passwordField" layoutX="52.0" layoutY="376.0" prefHeight="46.0" prefWidth="330.0"
+                       promptText="Введите пароль"/>
+        <Label layoutX="52.0" layoutY="426.0" onMouseClicked="#goToAdminRegisterPage" prefHeight="38.0"
+               prefWidth="160.0" text="Зарегистрироваться как администратор" textFill="#60c7ff" wrapText="true"/>
+        <Label alignment="CENTER_RIGHT" layoutX="229.0" layoutY="426.0" onMouseClicked="#goToSupervisorRegisterPage"
+               prefHeight="38.0" prefWidth="152.0" text="Зарегистрироваться как руководитель" textFill="#60c7ff"
+               wrapText="true"/>
     </children>
 </AnchorPane>

@@ -10,10 +10,10 @@
             fx:controller="client.controllers.LoginRegisterController">
     <children>
 
-        <Button layoutX="222.0" layoutY="52.0" onAction="#goToClientRegisterPage" prefHeight="26.0" prefWidth="160.0"
-                style="-fx-background-color: FFFFFF;" text="Регистрация"/>
+        <Button layoutX="222.0" layoutY="52.0" onAction="#goToSupervisorRegisterPage" prefHeight="26.0"
+                prefWidth="160.0" style="-fx-background-color: FFFFFF;" text="Регистрация"/>
 
-        <Button layoutX="52.0" layoutY="52.0" onAction="#goToClientLoginPage" prefHeight="26.0" prefWidth="160.0"
+        <Button layoutX="52.0" layoutY="52.0" onAction="#goToSupervisorLoginPage" prefHeight="26.0" prefWidth="160.0"
                 style="-fx-background-color: FFFFFF;" text="Вход">
             <font>
                 <Font name="Microsoft YaHei" size="12.0"/>
@@ -33,7 +33,8 @@
             </font>
         </Text>
 
-        <Text fill="WHITE" layoutX="52.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Вход клиента">
+        <Text fill="WHITE" layoutX="52.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Вход руководителя">
             <font>
                 <Font name="Microsoft YaHei" size="12.0"/>
             </font>
@@ -47,9 +48,8 @@
 
         <Label layoutX="52.0" layoutY="350.0" prefHeight="18.0" prefWidth="48.0" text="Пароль:" textFill="WHITE"/>
 
-        <Button fx:id="enterButton" layoutX="122.0" layoutY="466.0" mnemonicParsing="false"
-                onAction="#onClientLoginSubmit" prefHeight="38.0" prefWidth="185.0"
-                style="-fx-background-color: F8B179;" text="Войти как клиент">
+        <Button layoutX="122.0" layoutY="466.0" mnemonicParsing="false" onAction="#onSupervisorLoginSubmit"
+                prefHeight="38.0" prefWidth="185.0" style="-fx-background-color: F8B179;" text="Войти как руководитель">
             <font>
                 <Font size="14.0"/>
             </font>
@@ -58,9 +58,9 @@
         <!-- Используем PasswordField для пароля -->
         <PasswordField fx:id="passwordField" layoutX="52.0" layoutY="376.0" prefHeight="46.0" prefWidth="330.0"
                        promptText="Введите пароль"/>
-        <Label layoutX="52.0" layoutY="426.0" onMouseClicked="#goToAdminLoginPage" prefHeight="18.0" prefWidth="160.0"
-               text="Войти как администратор" textFill="#60c7ff"/>
-        <Label alignment="CENTER_RIGHT" layoutX="229.0" layoutY="426.0" onMouseClicked="#goToSupervisorLoginPage"
-               prefHeight="18.0" prefWidth="152.0" text="Войти как руководитель" textFill="#60c7ff"/>
+        <Label layoutX="52.0" layoutY="426.0" onMouseClicked="#goToClientLoginPage" prefHeight="18.0" prefWidth="160.0"
+               text="Войти как клиент" textFill="#60c7ff"/>
+        <Label alignment="CENTER_RIGHT" layoutX="229.0" layoutY="426.0" onMouseClicked="#goToAdminLoginPage"
+               prefHeight="18.0" prefWidth="152.0" text="Войти как администратор" textFill="#60c7ff"/>
     </children>
 </AnchorPane>

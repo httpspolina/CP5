@@ -2,10 +2,11 @@ package common.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class Film {
+public class Film implements Serializable {
     private Integer id;
     private String title;
     private String country;

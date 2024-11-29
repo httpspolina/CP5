@@ -5,16 +5,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="560.0" prefWidth="800.0"
-            style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1"
-            fx:controller="client.controllers.WelcomeController">
+<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="client.controllers.admin.MainPageController">
     <children>
         <Text fill="WHITE" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
             <font>
                 <Font name="Microsoft YaHei UI Light" size="48.0"/>
             </font>
         </Text>
-        <Button fx:id="addFilmButton" layoutX="36.0" layoutY="150.0" text="Добавить фильм" onAction="#toAddFilmClick"/>
-        <Label fx:id="welcomeMessage" text="Добро пожаловать, администратор!" layoutX="36.0" layoutY="100.0"/>
+        <Label fx:id="welcomeLabel" layoutX="36.0" layoutY="65.0" prefHeight="18.0" prefWidth="200.0"
+               text="Добро пожаловать, {role}!" textFill="WHITE"/>
+        <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="582.0" layoutY="17.0" prefHeight="18.0"
+               prefWidth="138.0" text="{username}" textFill="WHITE"/>
+        <Button fx:id="exitButton" layoutX="735.0" layoutY="14.0" onAction="#onExitButtonClick" text="Выйти"/>
     </children>
 </AnchorPane>

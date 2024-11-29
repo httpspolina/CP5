@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;"
             xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="client.controllers.client.MainPageController">
+            fx:controller="client.controllers.supervisor.MainPageController">
     <children>
         <Text fill="WHITE" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
             <font>

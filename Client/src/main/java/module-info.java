@@ -11,4 +11,7 @@ module Client {
     requires static lombok;
     opens client;
     opens client.controllers;
+    opens client.controllers.supervisor;
+    opens client.controllers.admin;
+    opens client.controllers.client;
 }

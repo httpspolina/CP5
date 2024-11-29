@@ -1,6 +1,8 @@
 package common.model;
 
-public enum UserRole {
+import java.io.Serializable;
+
+public enum UserRole implements Serializable {
     ADMIN,
     CLIENT,
     SUPERVISOR,

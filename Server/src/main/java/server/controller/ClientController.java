@@ -38,9 +38,9 @@ public class ClientController {
         newClient.setUsername(req.getUsername().toLowerCase());
         newClient.setPassword(PasswordHashing.hashPassword(req.getPassword()));
         newClient.setRole(UserRole.CLIENT);
-        newClient.setName(req.getName());
-        newClient.setEmail(req.getEmail().toLowerCase());
-        newClient.setPhone(req.getPhone());
+        newClient.setName(req.getName() != null ? req.getName() : "Введите имя");
+        newClient.setEmail(req.getEmail() != null ? req.getEmail() : "Введите почту");
+        newClient.setPhone(req.getPhone() != null ? req.getPhone() : "Введите телефон");
         Integer newUserId = clientRepository.create(newClient);
         if (newUserId == null) {
             return new CommonErrorResponse("Не удалось создать клиента");

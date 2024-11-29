@@ -5,36 +5,67 @@ import client.PrimaryStageManager;
 import client.ServerClient;
 import common.command.Request;
 import common.command.Response;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 
 public abstract class AbstractController {
+    @FXML
+    public Label welcomeLabel;
+    @FXML
+    public Label usernameLabel;
 
-    protected void switchPage(String fxmlFile) {
+    @FXML
+    public void initialize() {
+        tryConnect();
+        if (CurrentUser.CURRENT_USER != null && welcomeLabel != null && usernameLabel != null) {
+            welcomeLabel.setText(welcomeLabel.getText().replace("{role}", switch (CurrentUser.CURRENT_USER.getRole()) {
+                case ADMIN -> "администратор";
+                case CLIENT -> "клиент";
+                case SUPERVISOR -> "руководитель";
+            }));
+            usernameLabel.setText(usernameLabel.getText().replace("{username}", CurrentUser.CURRENT_USER.getUsername()));
+        }
+    }
+
+    public void tryConnect() {
+        try {
+            if (!ServerClient.INSTANCE.isConnected()) {
+                ServerClient.INSTANCE.connect();
+                CurrentUser.CURRENT_USER = null;
+                switchPage("/client/login.fxml");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void switchPage(String fxmlFile) {
         try {
             PrimaryStageManager.INSTANCE.switchPage(fxmlFile);
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Ошибка при загрузке страницы.");
         }
     }
 
-    protected void tryReconnect() throws Exception {
-        if (!ServerClient.INSTANCE.isConnected()) {
-            ServerClient.INSTANCE.connect();
-        }
-    }
-
-    protected Response call(Request request) throws Exception {
+    public Response call(Request request) throws Exception {
         try {
             return ServerClient.INSTANCE.call(request);
         } catch (Exception e) {
-            switchPage("/client/login.fxml");
             CurrentUser.CURRENT_USER = null;
+            switchPage("/client/login.fxml");
             throw e;
         }
     }
 
-    protected void showErrorAlert(String errorMessage) {
+    @FXML
+    public void onExitButtonClick() {
+        ServerClient.INSTANCE.disconnect();
+        switchPage("/client/login.fxml");
+        tryConnect();
+    }
+
+    public void showErrorAlert(String errorMessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Ошибка");
         alert.setHeaderText("Что-то пошло не так");

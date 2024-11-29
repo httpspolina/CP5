@@ -2,6 +2,8 @@ package client;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class PrimaryStageManager {
@@ -13,8 +15,13 @@ public class PrimaryStageManager {
     private PrimaryStageManager() {
     }
 
-    public synchronized void initialize(Stage primaryStage) {
+    public synchronized void initialize(Stage primaryStage) throws Exception {
         if (this.primaryStage != null) return;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/login.fxml"));
+        AnchorPane root = loader.load();
+        Scene scene = new Scene(root, 800, 560);
+        primaryStage.setScene(scene);
+        primaryStage.show();
         this.primaryStage = primaryStage;
     }
 
