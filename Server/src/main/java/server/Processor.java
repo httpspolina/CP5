@@ -76,6 +76,8 @@ public class Processor extends Thread {
                                 case FindAllFilmsRequest req -> clientController.findAllFilms(req);
                                 case FindFilmByIdRequest req -> clientController.findFilmById(req);
                                 case AddReviewRequest req -> clientController.addReview(currentClient.getId(), req);
+                                case FindHallsRequest req -> clientController.findHalls(req);
+                                case FindSessionsRequest req -> clientController.findSessions(req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };
                             if (res instanceof ClientResponse response) {

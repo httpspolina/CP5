@@ -60,34 +60,23 @@ create table review
     constraint foreign key (client_id) references client (id)
 );
 
-create table cinema
-(
-    id      int          not null primary key auto_increment,
-    name    varchar(255) not null,
-    address varchar(255) not null
-);
-
 create table hall
 (
-    id        int          not null primary key auto_increment,
-    cinema_id int          not null,
-    name      varchar(255) not null,
-    seats     int          not null
+    id    int          not null primary key auto_increment,
+    name  varchar(255) not null,
+    seats int          not null
         check ( seats > 0 and seats % 10 = 0 ),
-    price     float        not null
-        check ( price > 0 ),
-    constraint foreign key (cinema_id) references cinema (id)
+    price float        not null
+        check ( price > 0 )
 );
 
 create table session
 (
-    id        int      not null primary key auto_increment,
-    film_id   int      not null,
-    cinema_id int      not null,
-    hall_id   int      not null,
-    date      datetime not null,
+    id      int      not null primary key auto_increment,
+    film_id int      not null,
+    hall_id int      not null,
+    date    datetime not null,
     constraint foreign key (film_id) references film (id),
-    constraint foreign key (cinema_id) references cinema (id),
     constraint foreign key (hall_id) references hall (id)
 );
 
