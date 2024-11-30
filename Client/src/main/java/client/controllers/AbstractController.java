@@ -40,12 +40,13 @@ public abstract class AbstractController {
         }
     }
 
-    public void switchPage(String fxmlFile) {
+    public <T> T switchPage(String fxmlFile) {
         try {
-            PrimaryStageManager.INSTANCE.switchPage(fxmlFile);
+            return PrimaryStageManager.INSTANCE.switchPage(fxmlFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public Response call(Request request) throws Exception {

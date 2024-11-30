@@ -25,11 +25,12 @@ public class PrimaryStageManager {
         this.primaryStage = primaryStage;
     }
 
-    public synchronized void switchPage(String fxmlFile) throws Exception {
-        if (this.primaryStage == null) return;
+    public synchronized <T> T switchPage(String fxmlFile) throws Exception {
+        if (this.primaryStage == null) return null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
         Parent root = loader.load();
         primaryStage.getScene().setRoot(root);
+        return loader.getController();
     }
 
 }
