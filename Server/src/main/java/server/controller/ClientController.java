@@ -49,6 +49,15 @@ public class ClientController {
         return new ClientResponse(foundClient);
     }
 
+    public Response update(Integer currentClientId, UpdateClientRequest req) throws Exception {
+        int updated = clientRepository.update(currentClientId, req.getClient());
+        if (updated == 0) {
+            return new CommonErrorResponse("Не удалось обновить клиента");
+        }
+        Client foundClient = clientRepository.findByUsername(req.getClient().getUsername().toLowerCase());
+        return new ClientResponse(foundClient);
+    }
+
     public Response findAllFilms(FindAllFilmsRequest req) throws Exception {
         List<Film> films = filmRepository.findAll();
         return new FilmsResponse(films);

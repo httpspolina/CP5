@@ -72,11 +72,15 @@ public class Processor extends Thread {
                         } else if (currentUser.getRole() == UserRole.CLIENT) {
                             Client currentClient = (Client) currentUser;
                             res = switch (o) {
+                                case UpdateClientRequest req -> clientController.update(currentClient.getId(), req);
                                 case FindAllFilmsRequest req -> clientController.findAllFilms(req);
                                 case FindFilmByIdRequest req -> clientController.findFilmById(req);
                                 case AddReviewRequest req -> clientController.addReview(currentClient.getId(), req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };
+                            if (res instanceof ClientResponse response) {
+                                currentUser = response.getClient();
+                            }
                         } else if (currentUser.getRole() == UserRole.SUPERVISOR) {
                             // ...
                         }

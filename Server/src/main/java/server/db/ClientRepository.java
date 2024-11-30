@@ -69,4 +69,23 @@ public class ClientRepository {
         return null;
     }
 
+    public int update(Integer currentClientId, Client client) {
+        try (var connection = DatabaseConnection.get()) {
+            try (var statement = connection.prepareStatement("""
+                    UPDATE client
+                    SET name = ?, email = ?, phone = ?
+                    WHERE id = ?
+                    """)) {
+                statement.setString(1, client.getName());
+                statement.setString(2, client.getEmail());
+                statement.setString(3, client.getPhone());
+                statement.setInt(4, currentClientId);
+                return statement.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }
