@@ -79,6 +79,11 @@ public class Processor extends Thread {
                                 case FindHallsRequest req -> clientController.findHalls(req);
                                 case FindSessionsRequest req -> clientController.findSessions(req);
                                 case FindSessionByIdRequest req -> clientController.findSessionById(req);
+                                case CreatePaymentMethodRequest req ->
+                                        clientController.createPaymentMethod(currentClient.getId(), req);
+                                case FindMyPaymentMethodsRequest req ->
+                                        clientController.findPaymentMethodsByClientId(currentClient.getId(), req);
+                                case CreateOrderRequest req -> clientController.createOrder(currentClient.getId(), req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };
                             if (res instanceof ClientResponse response) {
@@ -91,6 +96,10 @@ public class Processor extends Thread {
                     } catch (Exception e) {
                         res = new CommonErrorResponse(e.getMessage());
                         e.printStackTrace();
+                    } finally {
+                        if (res == null) {
+                            res = new CommonErrorResponse("Что-то пошло не так");
+                        }
                     }
 
                     print("Ответ: " + res);

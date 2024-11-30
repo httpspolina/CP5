@@ -7,14 +7,18 @@ import common.command.client.*;
 import common.model.*;
 import server.db.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ClientController {
 
     private final ClientRepository clientRepository = new ClientRepository();
     private final FilmRepository filmRepository = new FilmRepository();
-    private final ReviewRepository reviewRepository = new ReviewRepository();
     private final HallRepository hallRepository = new HallRepository();
+    private final OrderRepository orderRepository = new OrderRepository();
+    private final PaymentMethodRepository paymentMethodRepository = new PaymentMethodRepository();
+    private final ReviewRepository reviewRepository = new ReviewRepository();
     private final SessionRepository sessionRepository = new SessionRepository();
 
     public Response login(ClientLoginRequest req) throws Exception {
@@ -96,5 +100,41 @@ public class ClientController {
             return new CommonErrorResponse("Не удалось найти сеанс");
         }
         return new SessionResponse(session);
+    }
+
+    public Response createPaymentMethod(Integer currentClientId, CreatePaymentMethodRequest req) {
+        PaymentMethod paymentMethod = req.getPaymentMethod();
+        paymentMethod.setClientId(currentClientId);
+        Integer newId = paymentMethodRepository.create(paymentMethod);
+        if (newId == null) {
+            return new CommonErrorResponse("Не удалось добавить способ оплаты");
+        }
+        return SuccessResponse.INSTANCE;
+    }
+
+    public Response findPaymentMethodsByClientId(Integer currentClientId, FindMyPaymentMethodsRequest req) {
+        List<PaymentMethod> paymentMethods = paymentMethodRepository.findByClientId(currentClientId);
+        return new PaymentMethodsResponse(paymentMethods);
+    }
+
+    public Response createOrder(Integer currentClientId, CreateOrderRequest req) {
+        Integer sessionId = req.getSessionId();
+        Integer paymentMethodId = req.getPaymentMethodId();
+        Set<Integer> seatIndexes = req.getSelectedSeatIndexes();
+        List<Order> orders = new ArrayList<>();
+        for (Integer seatIndex : seatIndexes) {
+            Order order = new Order();
+            order.setClientId(currentClientId);
+            order.setPaymentMethodId(paymentMethodId);
+            order.setSessionId(sessionId);
+            order.setSeatIndex(seatIndex);
+            order.setStatus(OrderStatus.PAYED);
+            Integer newOrderId = orderRepository.create(order);
+            Order newOrder = orderRepository.findById(newOrderId);
+            if (newOrder != null) {
+                orders.add(newOrder);
+            }
+        }
+        return new OrdersResponse(orders);
     }
 }
