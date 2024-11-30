@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -15,6 +15,5 @@ public class Session implements Serializable {
     private Timestamp date;
 
     private Integer seats; // вместимость зала
-    private Set<Integer> occupiedSeats = new LinkedHashSet<>(); // номера занятых мест
-    private Set<Integer> availableSeats = new LinkedHashSet<>(); // номера свободных мест
+    private Set<Integer> occupiedSeats = new HashSet<>(); // номера занятых мест
 }

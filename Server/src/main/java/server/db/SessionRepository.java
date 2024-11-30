@@ -56,13 +56,8 @@ public class SessionRepository {
                         session.setHallId(rs.getInt("hall_id"));
                         session.setDate(rs.getTimestamp("date"));
                         session.setSeats(rs.getInt("seats"));
-                        for (int i = 1; i <= session.getSeats(); i++) {
-                            session.getAvailableSeats().add(i);
-                        }
                         do {
-                            int seatIndex = rs.getInt("seat_index");
-                            session.getAvailableSeats().remove(seatIndex);
-                            session.getOccupiedSeats().add(seatIndex);
+                            session.getOccupiedSeats().add(rs.getInt("seat_index"));
                         } while (rs.next());
                         return session;
                     }
