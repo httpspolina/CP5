@@ -78,6 +78,7 @@ public class Processor extends Thread {
                                 case AddReviewRequest req -> clientController.addReview(currentClient.getId(), req);
                                 case FindHallsRequest req -> clientController.findHalls(req);
                                 case FindSessionsRequest req -> clientController.findSessions(req);
+                                case FindSessionByIdRequest req -> clientController.findSessionById(req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };
                             if (res instanceof ClientResponse response) {

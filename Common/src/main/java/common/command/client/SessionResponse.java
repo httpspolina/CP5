@@ -1,17 +1,14 @@
 package common.command.client;
 
 import common.command.SuccessResponse;
-import common.model.Film;
+import common.model.Session;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilmsResponse implements SuccessResponse {
-    private List<Film> films = new ArrayList<>();
+public class SessionResponse implements SuccessResponse {
+    private Session session;
 }

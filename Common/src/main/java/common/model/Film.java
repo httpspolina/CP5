@@ -3,6 +3,7 @@ package common.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,5 +19,5 @@ public class Film implements Serializable {
     private String posterUrl;
 
     private Double rating;
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 }

@@ -89,4 +89,12 @@ public class ClientController {
         List<Session> sessions = sessionRepository.findByFilmIdAndHallId(req.getFilmId(), req.getHallId());
         return new SessionsResponse(sessions);
     }
+
+    public Response findSessionById(FindSessionByIdRequest req) {
+        Session session = sessionRepository.findById(req.getSessionId());
+        if (session == null) {
+            return new CommonErrorResponse("Не удалось найти сеанс");
+        }
+        return new SessionResponse(session);
+    }
 }
