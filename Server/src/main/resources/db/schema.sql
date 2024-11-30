@@ -65,7 +65,7 @@ create table hall
     id    int          not null primary key auto_increment,
     name  varchar(255) not null,
     seats int          not null
-        check ( seats > 0 and seats % 10 = 0 ),
+        check ( seats > 0 and seats % 10 = 0 and seats <= 100 ),
     price float        not null
         check ( price > 0 )
 );

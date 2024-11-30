@@ -8,6 +8,7 @@ import common.command.client.FilmResponse;
 import common.command.client.FindFilmByIdRequest;
 import common.model.Film;
 import common.model.Review;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -29,7 +30,7 @@ public class FilmDetailsController extends AbstractController {
     @FXML
     private TextArea reviewTextArea;
 
-    private Integer filmId;
+    private Film film;
 
     @FXML
     public void initialize() {
@@ -38,18 +39,22 @@ public class FilmDetailsController extends AbstractController {
         addReviewButton.setDisable(true);
     }
 
+    public void setFilm(Film film) {
+        this.film = film;
+        loadFilmDetails();
+    }
+
     public void loadFilmDetails() {
-        if (filmId == null) return;
+        if (film == null) return;
         try {
             FindFilmByIdRequest request = new FindFilmByIdRequest();
-            request.setFilmId(filmId);
+            request.setFilmId(film.getId());
 
             Response response = call(request);
 
-            if (response instanceof FilmResponse) {
-                FilmResponse filmResponse = (FilmResponse) response;
+            if (response instanceof FilmResponse filmResponse) {
                 String filmDetails = getFilmDetails(filmResponse.getFilm());
-
+                film = filmResponse.getFilm();
                 filmDetailsTextArea.setText(filmDetails);
                 reviewTextArea.setText(filmResponse.getFilm().getReviews().stream().map(Review::toString).collect(Collectors.joining("\n\n")));
             } else {
@@ -122,8 +127,13 @@ public class FilmDetailsController extends AbstractController {
         addReviewButton.setDisable(ratingComboBox.getValue() == null);
     }
 
-    public void setFilmId(Integer filmId) {
-        this.filmId = filmId;
-        loadFilmDetails();
+    public void goBack(ActionEvent actionEvent) {
+        switchPage("/client/main.fxml");
+    }
+
+    // кнопка выбрать конкретный фильм
+    public void chooseFilm(ActionEvent actionEvent) {
+        HallsPageController controller = switchPage("/client/halls.fxml");
+        controller.setFilm(film);
     }
 }

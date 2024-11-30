@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="client.controllers.client.SessionDetailsController">
+    <children>
+        <Text fill="WHITE" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
+            <font>
+                <Font name="Microsoft YaHei UI Light" size="48.0"/>
+            </font>
+        </Text>
+        <Label fx:id="welcomeLabel" layoutX="36.0" layoutY="65.0" prefHeight="18.0" prefWidth="200.0"
+               text="Добро пожаловать, {role}!" textFill="WHITE">
+            <font>
+                <Font name="Microsoft YaHei UI" size="12.0"/>
+            </font>
+        </Label>
+        <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="582.0" layoutY="17.0" prefHeight="18.0"
+               prefWidth="138.0" text="{username}" textFill="WHITE">
+            <font>
+                <Font name="Microsoft YaHei UI" size="12.0"/>
+            </font>
+        </Label>
+        <Button layoutX="735.0" layoutY="14.0" onAction="#onExitButtonClick" text="Выйти">
+            <font>
+                <Font name="Microsoft YaHei UI" size="12.0"/>
+            </font>
+        </Button>
+        <Button layoutX="36.0" layoutY="100.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0"
+                prefWidth="66.0" text="Назад">
+            <font>
+                <Font name="Microsoft YaHei" size="12.0"/>
+            </font>
+        </Button>
+        <Button layoutX="313.0" layoutY="498.0" mnemonicParsing="false" onAction="#placeOrder" prefHeight="42.0"
+                prefWidth="200.0" style="-fx-background-color: F8B179;" text="Купить билеты">
+            <font>
+                <Font name="Microsoft YaHei" size="12.0"/>
+            </font>
+        </Button>
+        <Text fill="WHITE" layoutX="335.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ВЫБОР МЕСТ">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Text>
+        <GridPane fx:id="grid" alignment="CENTER" layoutX="278.0" layoutY="190.0" prefHeight="290.0" prefWidth="507.0"/>
+        <Text fill="WHITE" layoutX="365.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Экран"
+              textAlignment="CENTER" wrappingWidth="333.44525146484375">
+            <font>
+                <Font size="17.0"/>
+            </font>
+        </Text>
+    </children>
+</AnchorPane>

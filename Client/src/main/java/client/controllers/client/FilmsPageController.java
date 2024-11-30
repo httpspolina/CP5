@@ -10,7 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
-public class MainPageController extends AbstractController {
+public class FilmsPageController extends AbstractController {
     @FXML
     public ListView<Film> filmsListView;
 
@@ -19,8 +19,8 @@ public class MainPageController extends AbstractController {
         try {
             super.initialize();
             Response res = call(new FindAllFilmsRequest());
-            if (res instanceof FilmsResponse r) {
-                filmsListView.getItems().addAll(r.getFilms());
+            if (res instanceof FilmsResponse filmsResponse) {
+                filmsListView.getItems().addAll(filmsResponse.getFilms());
                 return;
             }
             if (res instanceof ErrorResponse r) {
@@ -37,8 +37,7 @@ public class MainPageController extends AbstractController {
         Film selectedFilm = filmsListView.getSelectionModel().getSelectedItem();
         if (selectedFilm != null) {
             FilmDetailsController controller = switchPage("/client/film.fxml");
-            controller.setFilmId(selectedFilm.getId());
+            controller.setFilm(selectedFilm);
         }
     }
-
 }

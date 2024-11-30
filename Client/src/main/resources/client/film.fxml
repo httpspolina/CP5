@@ -3,8 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.*?>
 <AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;"
             xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="client.controllers.client.FilmDetailsController">
@@ -15,17 +14,32 @@
             </font>
         </Text>
         <Label fx:id="welcomeLabel" layoutX="36.0" layoutY="65.0" prefHeight="18.0" prefWidth="200.0"
-               text="Добро пожаловать, {role}!" textFill="WHITE"/>
+               text="Добро пожаловать, {role}!" textFill="WHITE">
+            <font>
+                <Font name="Microsoft YaHei UI" size="12.0"/>
+            </font>
+        </Label>
         <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="582.0" layoutY="17.0" prefHeight="18.0"
-               prefWidth="138.0" text="{username}" textFill="WHITE"/>
-        <Button layoutX="735.0" layoutY="14.0" onAction="#onExitButtonClick" text="Выйти"/>
-        <VBox alignment="CENTER_LEFT" layoutX="588.0" layoutY="245.0" prefHeight="110.0" prefWidth="200.0"
+               prefWidth="138.0" text="{username}" textFill="WHITE">
+            <font>
+                <Font name="Microsoft YaHei UI" size="12.0"/>
+            </font>
+        </Label>
+        <Button layoutX="735.0" layoutY="14.0" onAction="#onExitButtonClick" text="Выйти">
+            <font>
+                <Font name="Microsoft YaHei UI" size="12.0"/>
+            </font>
+        </Button>
+        <VBox alignment="CENTER_LEFT" layoutX="588.0" layoutY="265.0" prefHeight="82.0" prefWidth="200.0"
               style="-fx-background-color: FFFFFF;">
             <children>
                 <Label alignment="CENTER" text="Введите рейтинг:">
                     <VBox.margin>
                         <Insets bottom="10.0"/>
                     </VBox.margin>
+                    <font>
+                        <Font name="Microsoft YaHei" size="12.0"/>
+                    </font>
                 </Label>
                 <ComboBox fx:id="ratingComboBox" prefHeight="26.0" prefWidth="254.0"/>
             </children>
@@ -33,27 +47,54 @@
                 <Insets left="25.0" right="25.0"/>
             </padding>
         </VBox>
-        <VBox alignment="CENTER_LEFT" layoutX="36.0" layoutY="245.0" prefHeight="110.0" prefWidth="534.0"
+        <VBox alignment="CENTER_LEFT" layoutX="36.0" layoutY="265.0" prefHeight="82.0" prefWidth="534.0"
               style="-fx-background-color: FFFFFF;">
-            <children>
-                <Label alignment="CENTER" text="Написать отзыв:">
-                    <VBox.margin>
-                        <Insets bottom="10.0"/>
-                    </VBox.margin>
-                </Label>
-                <TextField fx:id="reviewTextField" prefHeight="26.0" prefWidth="431.0">
-                    <VBox.margin>
-                        <Insets bottom="10.0"/>
-                    </VBox.margin>
-                </TextField>
-                <Button fx:id="addReviewButton" mnemonicParsing="false" onAction="#addReview" text="Добавить отзыв"/>
-            </children>
             <padding>
                 <Insets left="25.0" right="25.0"/>
             </padding>
+            <children>
+                <Label alignment="CENTER" text="Написать отзыв:">
+                    <VBox.margin>
+                        <Insets/>
+                    </VBox.margin>
+                </Label>
+                <HBox alignment="CENTER" prefHeight="34.0" prefWidth="494.0">
+                    <children>
+                        <TextField fx:id="reviewTextField" prefHeight="26.0" prefWidth="393.0">
+                            <padding>
+                                <Insets right="20.0"/>
+                            </padding>
+                        </TextField>
+                        <Button fx:id="addReviewButton" mnemonicParsing="false" onAction="#addReview" prefHeight="26.0"
+                                prefWidth="82.0" text="Отправить">
+                            <HBox.margin>
+                                <Insets left="20.0"/>
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
         </VBox>
 
-        <TextArea fx:id="filmDetailsTextArea" layoutX="36.0" layoutY="101.0" prefHeight="129.0" prefWidth="754.0"/>
-        <TextArea fx:id="reviewTextArea" layoutX="36.0" layoutY="369.0" prefHeight="129.0" prefWidth="754.0"/>
+        <TextArea fx:id="filmDetailsTextArea" layoutX="36.0" layoutY="141.0" prefHeight="110.0" prefWidth="754.0"/>
+        <TextArea fx:id="reviewTextArea" layoutX="36.0" layoutY="361.0" prefHeight="119.0" prefWidth="754.0"/>
+        <Button layoutX="36.0" layoutY="100.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0"
+                prefWidth="66.0" text="Назад">
+            <font>
+                <Font name="Microsoft YaHei" size="12.0"/>
+            </font>
+        </Button>
+        <Button layoutX="313.0" layoutY="498.0" mnemonicParsing="false" onAction="#chooseFilm" prefHeight="42.0"
+                prefWidth="200.0" style="-fx-background-color: F8B179;" text="Выбрать зал">
+            <font>
+                <Font name="Microsoft YaHei" size="12.0"/>
+            </font>
+        </Button>
+        <Text fill="WHITE" layoutX="260.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="{название текущего фильма}" textAlignment="CENTER" wrappingWidth="328.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Text>
     </children>
 </AnchorPane>
