@@ -11,6 +11,7 @@ import common.model.Review;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
 import java.util.stream.Collectors;
 
@@ -31,6 +32,9 @@ public class FilmDetailsController extends AbstractController {
     private TextArea reviewTextArea;
 
     private Film film;
+
+    @FXML
+    private Text filmTitleText;
 
     @FXML
     public void initialize() {
@@ -57,6 +61,8 @@ public class FilmDetailsController extends AbstractController {
                 film = filmResponse.getFilm();
                 filmDetailsTextArea.setText(filmDetails);
                 reviewTextArea.setText(filmResponse.getFilm().getReviews().stream().map(Review::toString).collect(Collectors.joining("\n\n")));
+
+                filmTitleText.setText(film.getTitle());
             } else {
                 showErrorAlert("Не удалось получить фильм.");
             }
@@ -86,7 +92,7 @@ public class FilmDetailsController extends AbstractController {
             }
 
             AddReviewRequest request = new AddReviewRequest();
-            request.setFilmId(1);
+            request.setFilmId(film.getId());
             request.setRating(rating);
             request.setDescription(reviewText);
 

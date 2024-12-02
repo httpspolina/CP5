@@ -6,6 +6,7 @@ import common.command.Response;
 import common.command.client.FilmsResponse;
 import common.command.client.FindAllFilmsRequest;
 import common.model.Film;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -40,4 +41,6 @@ public class FilmsPageController extends AbstractController {
             controller.setFilm(selectedFilm);
         }
     }
+
+    public void onProfileButton(ActionEvent actionEvent) { switchPage("/client/profile.fxml"); }
 }
