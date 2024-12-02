@@ -9,7 +9,6 @@ import common.command.client.*;
 import common.command.supervisor.SupervisorLoginRequest;
 import common.command.supervisor.SupervisorRegisterRequest;
 import common.command.supervisor.SupervisorResponse;
-import common.model.Admin;
 import common.model.Client;
 import common.model.User;
 import common.model.UserRole;
@@ -69,7 +68,6 @@ public class Processor extends Thread {
                                 currentUser = response.getUser();
                             }
                         } else if (currentUser.getRole() == UserRole.ADMIN) {
-                            Admin currentAdmin = (Admin) currentUser;
                             res = switch (o) {
                                 case FindAllFilmsRequest req -> adminController.findAllFilms(req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
