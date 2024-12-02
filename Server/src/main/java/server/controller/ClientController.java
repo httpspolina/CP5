@@ -143,12 +143,10 @@ public class ClientController {
         return new OrdersResponse(orders);
     }
 
-    // Обработка запроса для обновления статуса заказа
     public Response updateOrderStatus(UpdateOrderStatusRequest req) {
         Integer orderId = req.getOrderId();
         OrderStatus newStatus = req.getStatus();
 
-        // Получаем заказ из базы данных
         Order order = orderRepository.findById(orderId);
         if (order == null) {
             return new CommonErrorResponse("Заказ не найден.");
@@ -158,9 +156,18 @@ public class ClientController {
         order.setStatus(newStatus);
         boolean updated = orderRepository.updateStatus(order);
         if (updated) {
-            return SuccessResponse.INSTANCE;  // Возвращаем успешный ответ
+            return SuccessResponse.INSTANCE;
         } else {
             return new CommonErrorResponse("Не удалось обновить статус заказа.");
         }
+    }
+
+    public Response findFilmByTitle(FindFilmByTitleRequest req) throws Exception {
+        String title = req.getTitle();
+        Film film = filmRepository.findByTitle(title);
+        if (film == null) {
+            return new CommonErrorResponse("Фильм не найден");
+        }
+        return new FilmResponse(film);
     }
 }

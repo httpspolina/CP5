@@ -128,4 +128,39 @@ public class FilmRepository {
         }
         return null;
     }
+
+    public Film findByTitle(String title) {
+        try (var connection = DatabaseConnection.get()) {
+            try (var statement = connection.prepareStatement("""
+                SELECT film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url,
+                       avg(review.rating) AS rating
+                FROM film
+                LEFT JOIN review ON film.id = review.film_id
+                WHERE film.title LIKE ?
+                GROUP BY film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url
+                ORDER BY film.year DESC, film.title
+                """)) {
+                statement.setString(1, "%" + title + "%");
+                try (var rs = statement.executeQuery()) {
+                    if (rs.next()) {
+                        Film film = new Film();
+                        film.setId(rs.getInt("id"));
+                        film.setTitle(rs.getString("title"));
+                        film.setCountry(rs.getString("country"));
+                        film.setYear(rs.getInt("year"));
+                        film.setDirector(rs.getString("director"));
+                        film.setRoles(rs.getString("roles"));
+                        film.setGenre(rs.getString("genre"));
+                        film.setDescription(rs.getString("description"));
+                        film.setPosterUrl(rs.getString("poster_url"));
+                        film.setRating(rs.getDouble("rating"));
+                        return film;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
