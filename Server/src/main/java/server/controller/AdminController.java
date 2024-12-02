@@ -5,15 +5,22 @@ import common.command.Response;
 import common.command.admin.AdminLoginRequest;
 import common.command.admin.AdminRegisterRequest;
 import common.command.admin.AdminResponse;
+import common.command.client.FilmsResponse;
+import common.command.client.FindAllFilmsRequest;
+import common.model.Film;
 import common.model.User;
 import common.model.UserRole;
 import server.ServerConfig;
+import server.db.FilmRepository;
 import server.db.PasswordHashing;
 import server.db.UserRepository;
+
+import java.util.List;
 
 public class AdminController {
 
     private final UserRepository userRepository = new UserRepository();
+    private final FilmRepository filmRepository = new FilmRepository();
 
     public Response login(AdminLoginRequest req) throws Exception {
         User foundUser = userRepository.findByUsername(req.getUsername().toLowerCase());
@@ -41,6 +48,11 @@ public class AdminController {
         }
         User foundUser = userRepository.findByUsername(req.getUsername().toLowerCase());
         return new AdminResponse(foundUser);
+    }
+
+    public Response findAllFilms(FindAllFilmsRequest req) throws Exception {
+        List<Film> films = filmRepository.findAll();
+        return new FilmsResponse(films);
     }
 
 }

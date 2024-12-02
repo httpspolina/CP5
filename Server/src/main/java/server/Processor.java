@@ -9,6 +9,7 @@ import common.command.client.*;
 import common.command.supervisor.SupervisorLoginRequest;
 import common.command.supervisor.SupervisorRegisterRequest;
 import common.command.supervisor.SupervisorResponse;
+import common.model.Admin;
 import common.model.Client;
 import common.model.User;
 import common.model.UserRole;
@@ -68,13 +69,16 @@ public class Processor extends Thread {
                                 currentUser = response.getUser();
                             }
                         } else if (currentUser.getRole() == UserRole.ADMIN) {
-                            // ...
+                            Admin currentAdmin = (Admin) currentUser;
+                            res = switch (o) {
+                                case FindAllFilmsRequest req -> adminController.findAllFilms(req);
+                                default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
+                            };
                         } else if (currentUser.getRole() == UserRole.CLIENT) {
                             Client currentClient = (Client) currentUser;
                             res = switch (o) {
                                 case UpdateClientRequest req -> clientController.update(currentClient.getId(), req);
-                                case FindAllFilmsRequest req -> clientController.findAllFilms(req);
-                                case FindFilmByIdRequest req -> clientController.findFilmById(req);
+                                case FindAllFilmsRequest req -> clientController.findAllFilms(req);                                case FindFilmByIdRequest req -> clientController.findFilmById(req);
                                 case AddReviewRequest req -> clientController.addReview(currentClient.getId(), req);
                                 case FindHallsRequest req -> clientController.findHalls(req);
                                 case FindSessionsRequest req -> clientController.findSessions(req);
@@ -88,6 +92,7 @@ public class Processor extends Thread {
                                         clientController.findOrdersByClientId(currentClient.getId(), req);
                                 case UpdateOrderStatusRequest req -> clientController.updateOrderStatus(req);
                                 case FindFilmByTitleRequest req -> clientController.findFilmByTitle(req);
+
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };
                             if (res instanceof ClientResponse response) {
