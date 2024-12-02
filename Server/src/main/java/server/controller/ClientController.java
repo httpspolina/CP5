@@ -137,4 +137,9 @@ public class ClientController {
         }
         return new OrdersResponse(orders);
     }
+
+    public Response findOrdersByClientId(Integer currentClientId, FindOrdersRequest req) {
+        List<Order> orders = orderRepository.findByClientId(currentClientId);
+        return new OrdersResponse(orders);
+    }
 }

@@ -147,5 +147,4 @@ public class SessionDetailsController extends AbstractController {
             showErrorAlert("Ошибка при переходе к оплате.");
         }
     }
-
 }

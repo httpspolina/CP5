@@ -51,7 +51,6 @@ public class PaymentController extends AbstractController {
     @FXML
     public void initialize() {
         super.initialize();
-        System.out.println("paymentMethodsComboBox: " + paymentMethodsComboBox);
         loadPaymentMethods();
     }
 

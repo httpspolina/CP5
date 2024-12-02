@@ -1,0 +1,126 @@
+вывести фильмы
+
+server\db\FilmRepository.java:
+
+public List<Film> findAll() {
+        try (var connection = DatabaseConnection.get()) {
+            try (var statement = connection.prepareStatement("""
+                    SELECT film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url,
+                           avg(review.rating) AS rating
+                    FROM film
+                    LEFT JOIN review ON film.id = review.film_id
+                    GROUP BY film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url
+                    ORDER BY film.year DESC, film.title
+                    """)) {
+                try (var rs = statement.executeQuery()) {
+                    List<Film> films = new ArrayList<>();
+                    while (rs.next()) {
+                        Film film = new Film();
+                        film.setId(rs.getInt("id"));
+                        film.setTitle(rs.getString("title"));
+                        film.setCountry(rs.getString("country"));
+                        film.setYear(rs.getInt("year"));
+                        film.setDirector(rs.getString("director"));
+                        film.setRoles(rs.getString("roles"));
+                        film.setGenre(rs.getString("genre"));
+                        film.setDescription(rs.getString("description"));
+                        film.setPosterUrl(rs.getString("poster_url"));
+                        film.setRating(rs.getDouble("rating"));
+                        films.add(film);
+                    }
+                    return films;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+server/controller/ClientController.java:
+
+public Response findAllFilms(FindAllFilmsRequest req) throws Exception {
+        List<Film> films = filmRepository.findAll();
+        return new FilmsResponse(films);
+    }
+
+common/model/film:
+package common.model;
+
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.List;
+
+@Data
+public class Film implements Serializable {
+    private Integer id;
+    private String title;
+    private String country;
+    private Integer year;
+    private String director;
+    private String roles;
+    private String genre;
+    private String description;
+    private String posterUrl;
+
+    private Double rating;
+    private List<Review> reviews;
+}
+
+common\command\client\FindAllFilmsRequest.java:
+
+package common.command.client;
+
+import common.command.Request;
+import lombok.Data;
+
+@Data
+public class FindAllFilmsRequest implements Request {
+}
+
+common\command\client\FilmsResponse.java:
+
+package common.command.client;
+
+import common.command.SuccessResponse;
+import common.model.Film;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class FilmsResponse implements SuccessResponse {
+    private List<Film> films;
+}
+
+client\controllers\client\MainPageController.java:
+
+public class MainPageController extends AbstractController {
+    public ListView<Film> filmsListView;
+
+    @Override
+    public void initialize() {
+        try {
+            super.initialize();
+            Response res = call(new FindAllFilmsRequest());
+            if (res instanceof FilmsResponse r) {
+                filmsListView.getItems().addAll(r.getFilms());
+                return;
+            }
+            if (res instanceof ErrorResponse r) {
+                showErrorAlert(r.getMessage());
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        showErrorAlert("Не удалось загрузить список фильмов.");
+    }
+}
+
+

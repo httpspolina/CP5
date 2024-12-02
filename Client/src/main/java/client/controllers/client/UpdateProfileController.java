@@ -3,15 +3,20 @@ package client.controllers.client;
 import client.CurrentUser;
 import client.controllers.AbstractController;
 import common.command.Response;
-import common.command.client.*;
-import common.model.*;
+import common.command.client.ClientResponse;
+import common.command.client.FindOrdersRequest;
+import common.command.client.OrdersResponse;
+import common.command.client.UpdateClientRequest;
+import common.model.Client;
+import common.model.Order;
+import common.model.PaymentMethod;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UpdateProfileController extends AbstractController {
     Client currentUser = (Client) CurrentUser.CURRENT_USER;
@@ -38,8 +43,36 @@ public class UpdateProfileController extends AbstractController {
     }
 
     public void loadOrders() {
+        try {
+            FindOrdersRequest request = new FindOrdersRequest();
 
+            Response response = call(request);
+
+            // Проверяем тип ответа
+            if (response instanceof OrdersResponse ordersResponse) {
+                List<Order> orders = ordersResponse.getOrders();
+
+                StringBuilder ordersText = new StringBuilder();
+                for (Order order : orders) {
+                    ordersText.append("ID заказа: ").append(order.getId()).append("\n")
+                            .append("Статус: ").append(order.getStatus()).append("\n")
+                            .append("Клиент ID: ").append(order.getClientId()).append("\n")
+                            .append("Метод оплаты ID: ").append(order.getPaymentMethodId()).append("\n")
+                            .append("Сессия ID: ").append(order.getSessionId()).append("\n")
+                            .append("Место: ").append(order.getSeatIndex()).append("\n")
+                            .append("Дата создания: ").append(order.getCreatedAt()).append("\n\n");
+                }
+
+                ordersTextArea.setText(ordersText.toString());
+            } else {
+                showAlert("Ошибка", "Не удалось загрузить заказы.", Alert.AlertType.ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Ошибка", "Произошла ошибка при загрузке заказов.", Alert.AlertType.ERROR);
+        }
     }
+
 
     public void onProfileButton(ActionEvent actionEvent) {
         switchPage("/client/profile.fxml");
@@ -97,4 +130,6 @@ public class UpdateProfileController extends AbstractController {
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
+
+    public void toCancelOrder(MouseEvent mouseEvent) { switchPage("/client/cancel.fxml"); }
 }

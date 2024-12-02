@@ -58,5 +58,6 @@
          </font>
       </Text>
       <TextArea fx:id="ordersTextArea" layoutX="400.0" layoutY="238.0" prefHeight="200.0" prefWidth="373.0" />
+      <Label layoutX="649.0" layoutY="448.0" onMouseClicked="#toCancelOrder" text="Я хочу отменить заказ" textFill="#a1a1a1" />
     </children>
 </AnchorPane>
