@@ -142,4 +142,25 @@ public class ClientController {
         List<Order> orders = orderRepository.findByClientId(currentClientId);
         return new OrdersResponse(orders);
     }
+
+    // Обработка запроса для обновления статуса заказа
+    public Response updateOrderStatus(UpdateOrderStatusRequest req) {
+        Integer orderId = req.getOrderId();
+        OrderStatus newStatus = req.getStatus();
+
+        // Получаем заказ из базы данных
+        Order order = orderRepository.findById(orderId);
+        if (order == null) {
+            return new CommonErrorResponse("Заказ не найден.");
+        }
+
+        // Обновляем статус заказа
+        order.setStatus(newStatus);
+        boolean updated = orderRepository.updateStatus(order);
+        if (updated) {
+            return SuccessResponse.INSTANCE;  // Возвращаем успешный ответ
+        } else {
+            return new CommonErrorResponse("Не удалось обновить статус заказа.");
+        }
+    }
 }

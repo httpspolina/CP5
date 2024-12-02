@@ -90,5 +90,22 @@ public class OrderRepository {
         return Collections.emptyList();
     }
 
+    public boolean updateStatus(Order order) {
+        try (var connection = DatabaseConnection.get()) {
+            try (var statement = connection.prepareStatement("""
+                    UPDATE `order`
+                    SET status = ?
+                    WHERE id = ?
+                    """)) {
+                statement.setString(1, order.getStatus().name());
+                statement.setInt(2, order.getId());
 
+                int rowsUpdated = statement.executeUpdate();
+                return rowsUpdated > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
