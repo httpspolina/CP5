@@ -229,4 +229,40 @@ public class FilmRepository {
         return false;
     }
 
+    public List<Film> filterFilms(String sortOrder) {
+        String sql = """
+    SELECT film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url,
+           avg(review.rating) AS rating
+    FROM film
+    LEFT JOIN review ON film.id = review.film_id
+    GROUP BY film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url
+    ORDER BY film.year """ + sortOrder;
+
+        System.out.println("Executing SQL: " + sql);
+
+        try (var connection = DatabaseConnection.get();
+             var statement = connection.prepareStatement(sql);
+             var rs = statement.executeQuery()) {
+
+            List<Film> films = new ArrayList<>();
+            while (rs.next()) {
+                Film film = new Film();
+                film.setId(rs.getInt("id"));
+                film.setTitle(rs.getString("title"));
+                film.setCountry(rs.getString("country"));
+                film.setYear(rs.getInt("year"));
+                film.setDirector(rs.getString("director"));
+                film.setRoles(rs.getString("roles"));
+                film.setGenre(rs.getString("genre"));
+                film.setDescription(rs.getString("description"));
+                film.setPosterUrl(rs.getString("poster_url"));
+                film.setRating(rs.getDouble("rating"));
+                films.add(film);
+            }
+            return films;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
 }

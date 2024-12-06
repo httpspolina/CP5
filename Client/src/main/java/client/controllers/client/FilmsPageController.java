@@ -3,13 +3,12 @@ package client.controllers.client;
 import client.controllers.AbstractController;
 import common.command.ErrorResponse;
 import common.command.Response;
-import common.command.client.FilmResponse;
-import common.command.client.FilmsResponse;
-import common.command.client.FindAllFilmsRequest;
-import common.command.client.FindFilmByTitleRequest;
+import common.command.client.*;
 import common.model.Film;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -19,6 +18,8 @@ public class FilmsPageController extends AbstractController {
     public ListView<Film> filmsListView;
     @FXML
     public TextField filmSearchField;
+    @FXML
+    public ComboBox<String> filter;
 
     @Override
     public void initialize() {
@@ -78,6 +79,43 @@ public class FilmsPageController extends AbstractController {
         } catch (Exception e) {
             e.printStackTrace();
             showErrorAlert("Ошибка при поиске фильма.");
+        }
+    }
+
+    public void filterByYear(ActionEvent actionEvent) {
+        String selectedFilter = (String) filter.getValue();
+
+        if (selectedFilter == null) {
+            showErrorAlert("Пожалуйста, выберите тип фильтрации.");
+            return;
+        }
+
+        try {
+            System.out.println("Selected filter: " + selectedFilter);
+
+            FilterFilmsRequest request = new FilterFilmsRequest();
+            request.setFilterType("year");
+            request.setSortOrder(selectedFilter.equals("По возрастанию") ? "asc" : "desc");
+
+            System.out.println("Sending request: filterType=" + request.getFilterType() + ", sortOrder=" + request.getSortOrder());
+
+            Response response = call(request);
+
+            System.out.println("Response received: " + response);
+
+            if (response instanceof FilmsResponse filmsResponse) {
+                filmsListView.getItems().clear();
+                filmsListView.getItems().addAll(filmsResponse.getFilms());
+
+                System.out.println("Films count after filter: " + filmsResponse.getFilms().size());
+            } else if (response instanceof ErrorResponse errorResponse) {
+                showErrorAlert(errorResponse.getMessage());
+            } else {
+                showErrorAlert("Не удалось отфильтровать фильмы.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Ошибка при фильтрации фильмов.");
         }
     }
 
