@@ -63,10 +63,10 @@ public class OrderRepository {
     public List<Order> findByClientId(Integer clientId) {
         try (var connection = DatabaseConnection.get()) {
             try (var statement = connection.prepareStatement("""
-                SELECT id, client_id, payment_method_id, session_id, seat_index, status, created_at
-                FROM `order`
-                WHERE client_id = ?
-                """)) {
+                    SELECT id, client_id, payment_method_id, session_id, seat_index, status, created_at
+                    FROM `order`
+                    WHERE client_id = ?
+                    """)) {
                 statement.setInt(1, clientId);
                 try (var rs = statement.executeQuery()) {
                     List<Order> orders = new ArrayList<>();

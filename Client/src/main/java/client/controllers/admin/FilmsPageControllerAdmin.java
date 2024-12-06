@@ -1,11 +1,8 @@
 package client.controllers.admin;
 
 import client.controllers.AbstractController;
-import client.controllers.client.FilmDetailsController;
-import client.controllers.client.PaymentController;
 import common.command.ErrorResponse;
 import common.command.Response;
-import common.command.admin.AddFilmRequest;
 import common.command.client.FilmResponse;
 import common.command.client.FilmsResponse;
 import common.command.client.FindAllFilmsRequest;
@@ -13,14 +10,9 @@ import common.command.client.FindFilmByTitleRequest;
 import common.model.Film;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class FilmsPageControllerAdmin extends AbstractController {
     @FXML
@@ -89,7 +81,9 @@ public class FilmsPageControllerAdmin extends AbstractController {
         loadAllFilms();
     }
 
-    public void toWorkWithFilms(ActionEvent actionEvent) { switchPage("/admin/films.fxml"); }
+    public void toWorkWithFilms(ActionEvent actionEvent) {
+        switchPage("/admin/films.fxml");
+    }
 
     public void toAddFilm(ActionEvent actionEvent) {
         AddFilmController controller = switchPage("/admin/add_film.fxml");

@@ -19,5 +19,7 @@
         <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="582.0" layoutY="17.0" prefHeight="18.0"
                prefWidth="138.0" text="{username}" textFill="WHITE"/>
         <Button layoutX="735.0" layoutY="14.0" onAction="#onExitButtonClick" text="Выйти"/>
+        <Button layoutX="36.0" layoutY="95.0" mnemonicParsing="false" onAction="#toWorkWithUsers"
+                text="Работать с пользователями"/>
     </children>
 </AnchorPane>

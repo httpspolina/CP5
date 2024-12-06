@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 <AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;"
             xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="client.controllers.admin.FilmDetailsControllerAdmin">
+            fx:controller="client.controllers.supervisor.UserDetailsController">
     <children>
         <Text fill="WHITE" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
             <font>
@@ -29,22 +29,20 @@
                 <Font name="Microsoft YaHei UI" size="12.0"/>
             </font>
         </Button>
-        <TextArea fx:id="filmDetailsTextArea" layoutX="36.0" layoutY="141.0" prefHeight="166.0" prefWidth="754.0"/>
+        <TextArea fx:id="userDetailsTextArea" layoutX="36.0" layoutY="141.0" prefHeight="166.0" prefWidth="754.0"/>
         <Button layoutX="36.0" layoutY="101.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0"
                 prefWidth="66.0" text="Назад">
             <font>
                 <Font name="Microsoft YaHei" size="12.0"/>
             </font>
         </Button>
-        <Text fx:id="filmTitleText" fill="WHITE" layoutX="260.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="{название текущего фильма}" textAlignment="CENTER" wrappingWidth="328.0">
+        <Text fx:id="usernameTitleText" fill="WHITE" layoutX="260.0" layoutY="43.0" strokeType="OUTSIDE"
+              strokeWidth="0.0" text="{ник текущего пользователя}" textAlignment="CENTER" wrappingWidth="328.0">
             <font>
                 <Font name="System Bold" size="24.0"/>
             </font>
         </Text>
-        <Button layoutX="36.0" layoutY="321.0" mnemonicParsing="false" onAction="#toUpdateFilm" prefHeight="26.0"
-                prefWidth="122.0" text="Редактировать"/>
-        <Button layoutX="165.0" layoutY="321.0" mnemonicParsing="false" onAction="#toDeleteFilm" prefHeight="26.0"
+        <Button layoutX="36.0" layoutY="320.0" mnemonicParsing="false" onAction="#toDeleteUser" prefHeight="26.0"
                 prefWidth="115.0" text="Удалить"/>
     </children>
 </AnchorPane>

@@ -132,14 +132,14 @@ public class FilmRepository {
     public Film findByTitle(String title) {
         try (var connection = DatabaseConnection.get()) {
             try (var statement = connection.prepareStatement("""
-            SELECT film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url,
-                   avg(review.rating) AS rating
-            FROM film
-            LEFT JOIN review ON film.id = review.film_id
-            WHERE film.title = ?
-            GROUP BY film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url
-            ORDER BY film.year DESC, film.title
-            """)) {
+                    SELECT film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url,
+                           avg(review.rating) AS rating
+                    FROM film
+                    LEFT JOIN review ON film.id = review.film_id
+                    WHERE film.title = ?
+                    GROUP BY film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url
+                    ORDER BY film.year DESC, film.title
+                    """)) {
                 statement.setString(1, title);
                 try (var rs = statement.executeQuery()) {
                     if (rs.next()) {
@@ -168,31 +168,31 @@ public class FilmRepository {
     public boolean deleteById(Integer filmId) {
         try (var connection = DatabaseConnection.get()) {
             try (var orderStatement = connection.prepareStatement("""
-            DELETE o FROM `order` o
-            JOIN `session` s ON o.session_id = s.id
-            WHERE s.film_id = ?
-        """)) {
+                        DELETE o FROM `order` o
+                        JOIN `session` s ON o.session_id = s.id
+                        WHERE s.film_id = ?
+                    """)) {
                 orderStatement.setInt(1, filmId);
                 orderStatement.executeUpdate();
             }
 
             try (var sessionStatement = connection.prepareStatement("""
-            DELETE FROM session WHERE film_id = ?
-        """)) {
+                        DELETE FROM session WHERE film_id = ?
+                    """)) {
                 sessionStatement.setInt(1, filmId);
                 sessionStatement.executeUpdate();
             }
 
             try (var reviewStatement = connection.prepareStatement("""
-            DELETE FROM review WHERE film_id = ?
-        """)) {
+                        DELETE FROM review WHERE film_id = ?
+                    """)) {
                 reviewStatement.setInt(1, filmId);
                 reviewStatement.executeUpdate();
             }
 
             try (var filmStatement = connection.prepareStatement("""
-            DELETE FROM film WHERE id = ?
-        """)) {
+                        DELETE FROM film WHERE id = ?
+                    """)) {
                 filmStatement.setInt(1, filmId);
                 int rowsAffected = filmStatement.executeUpdate();
                 return rowsAffected > 0;
@@ -206,10 +206,10 @@ public class FilmRepository {
     public boolean update(Film film) {
         try (var connection = DatabaseConnection.get()) {
             try (var statement = connection.prepareStatement("""
-                UPDATE film
-                SET title = ?, country = ?, year = ?, director = ?, roles = ?, genre = ?, description = ?, poster_url = ?
-                WHERE id = ?
-                """)) {
+                    UPDATE film
+                    SET title = ?, country = ?, year = ?, director = ?, roles = ?, genre = ?, description = ?, poster_url = ?
+                    WHERE id = ?
+                    """)) {
                 statement.setString(1, film.getTitle());
                 statement.setString(2, film.getCountry());
                 statement.setInt(3, film.getYear());

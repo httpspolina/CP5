@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;"
             xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="client.controllers.admin.FilmsPageControllerAdmin">
+            fx:controller="client.controllers.supervisor.UsersPageController">
     <children>
         <Text fill="WHITE" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
             <font>
@@ -18,17 +18,16 @@
         <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="582.0" layoutY="17.0" prefHeight="18.0"
                prefWidth="138.0" text="{username}" textFill="WHITE"/>
         <Button layoutX="735.0" layoutY="14.0" onAction="#onExitButtonClick" text="Выйти"/>
-        <Button layoutX="36.0" layoutY="93.0" mnemonicParsing="false" onAction="#toWorkWithFilms" prefHeight="26.0"
-                prefWidth="200.0" text="Работать с фильмами"/>
-        <ListView fx:id="filmsListView" layoutX="36.0" layoutY="169.0" onMouseClicked="#goToFilmDetails"
-                  prefHeight="339.0" prefWidth="751.0"/>
+        <Button layoutX="36.0" layoutY="93.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0"
+                prefWidth="74.0" text="Назад"/>
+        <ListView fx:id="usersListView" layoutX="36.0" layoutY="174.0" onMouseClicked="#goToUserDetails"
+                  prefHeight="372.0" prefWidth="751.0"/>
         <Text fill="WHITE" layoutX="36.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Выберите фильм, чтобы работать с ним:"/>
-        <TextField fx:id="filmSearchField" layoutX="555.0" layoutY="93.0" prefHeight="26.0" prefWidth="170.0"
-                   promptText="Найти фильм"/>
-        <Button layoutX="731.0" layoutY="93.0" mnemonicParsing="false" onAction="#toSearchFilm" text="Искать"/>
-        <Button layoutX="465.0" layoutY="93.0" mnemonicParsing="false" onAction="#showAllFilms" text="Все фильмы"/>
-        <Button layoutX="36.0" layoutY="519.0" mnemonicParsing="false" onAction="#toAddFilm" prefHeight="26.0"
-                prefWidth="200.0" text="Добавить новый фильм"/>
+              text="Выберите пользователя, чтобы работать с ним:"/>
+        <TextField fx:id="userSearchField" layoutX="555.0" layoutY="93.0" prefHeight="26.0" prefWidth="170.0"
+                   promptText="Найти пользователя"/>
+        <Button layoutX="731.0" layoutY="93.0" mnemonicParsing="false" onAction="#toSearchUser" text="Искать"/>
+        <Button layoutX="433.0" layoutY="93.0" mnemonicParsing="false" onAction="#showAllUsers"
+                text="Все пользователи"/>
     </children>
 </AnchorPane>

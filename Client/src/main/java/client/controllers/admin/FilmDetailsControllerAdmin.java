@@ -8,7 +8,9 @@ import common.command.client.FindFilmByIdRequest;
 import common.model.Film;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
 public class FilmDetailsControllerAdmin extends AbstractController {

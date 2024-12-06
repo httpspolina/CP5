@@ -1,22 +1,21 @@
 package client.controllers.client;
 
 import client.controllers.AbstractController;
-import common.command.CommonErrorResponse;
 import common.command.Response;
 import common.command.SuccessResponse;
-import common.command.client.*;
-import common.model.*;
+import common.command.client.FindOrdersRequest;
+import common.command.client.OrdersResponse;
+import common.command.client.UpdateOrderStatusRequest;
+import common.model.Order;
+import common.model.OrderStatus;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 
-import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 
 public class CancelOrderController extends AbstractController {
@@ -59,16 +58,14 @@ public class CancelOrderController extends AbstractController {
         }
 
         try {
-            // Создаём запрос для обновления статуса заказа
             UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
             request.setOrderId(selectedOrder.getId());
             request.setStatus(OrderStatus.CANCELED);
 
-            // Отправляем запрос на сервер
             Response response = call(request);
             if (response instanceof SuccessResponse) {
                 showSuccessAlert("Заказ успешно отменен.");
-                loadOrders();  // Перезагружаем заказы для обновления состояния
+                loadOrders();
             } else {
                 showErrorAlert("Не удалось отменить заказ.");
             }
@@ -94,5 +91,7 @@ public class CancelOrderController extends AbstractController {
         });
     }
 
-    public void goBack(ActionEvent actionEvent) { switchPage("/client/main.fxml"); }
+    public void goBack(ActionEvent actionEvent) {
+        switchPage("/client/main.fxml");
+    }
 }

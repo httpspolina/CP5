@@ -2,7 +2,6 @@ package common.command.client;
 
 import common.command.SuccessResponse;
 import common.model.Order;
-import common.model.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

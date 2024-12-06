@@ -131,5 +131,7 @@ public class UpdateProfileController extends AbstractController {
         this.paymentMethod = paymentMethod;
     }
 
-    public void toCancelOrder(MouseEvent mouseEvent) { switchPage("/client/cancel.fxml"); }
+    public void toCancelOrder(MouseEvent mouseEvent) {
+        switchPage("/client/cancel.fxml");
+    }
 }

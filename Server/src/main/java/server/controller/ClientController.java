@@ -152,7 +152,6 @@ public class ClientController {
             return new CommonErrorResponse("Заказ не найден.");
         }
 
-        // Обновляем статус заказа
         order.setStatus(newStatus);
         boolean updated = orderRepository.updateStatus(order);
         if (updated) {

@@ -4,9 +4,7 @@ import common.command.CommonErrorResponse;
 import common.command.Response;
 import common.command.admin.*;
 import common.command.client.*;
-import common.command.supervisor.SupervisorLoginRequest;
-import common.command.supervisor.SupervisorRegisterRequest;
-import common.command.supervisor.SupervisorResponse;
+import common.command.supervisor.*;
 import common.model.Client;
 import common.model.User;
 import common.model.UserRole;
@@ -66,7 +64,6 @@ public class Processor extends Thread {
                                 currentUser = response.getUser();
                             }
                         } else if (currentUser.getRole() == UserRole.ADMIN) {
-                            User currentAdmin = (User) currentUser;
                             res = switch (o) {
                                 case FindAllFilmsRequest req -> adminController.findAllFilms(req);
                                 case FindFilmByTitleRequest req -> adminController.findFilmByTitle(req);
@@ -102,7 +99,12 @@ public class Processor extends Thread {
                                 currentUser = response.getClient();
                             }
                         } else if (currentUser.getRole() == UserRole.SUPERVISOR) {
-                            // ...
+                            res = switch (o) {
+                                case FindAllUsersRequest req -> supervisorController.findAllUsers();
+                                case FindUserByIdRequest req -> supervisorController.findUserById(req);
+                                case DeleteUserRequest req -> supervisorController.deleteUser(req);
+                                default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
+                            };
                         }
 
                     } catch (Exception e) {

@@ -1,9 +1,9 @@
 package client.controllers.admin;
 
 import client.controllers.AbstractController;
-import common.command.admin.UpdateFilmRequest;
 import common.command.Response;
 import common.command.SuccessResponse;
+import common.command.admin.UpdateFilmRequest;
 import common.model.Film;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -108,5 +108,7 @@ public class UpdateFilmController extends AbstractController {
         });
     }
 
-    public void cancel(ActionEvent actionEvent) { switchPage("/admin/film.fxml"); }
+    public void cancel(ActionEvent actionEvent) {
+        switchPage("/admin/film.fxml");
+    }
 }

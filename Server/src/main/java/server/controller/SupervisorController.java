@@ -2,14 +2,15 @@ package server.controller;
 
 import common.command.CommonErrorResponse;
 import common.command.Response;
-import common.command.supervisor.SupervisorLoginRequest;
-import common.command.supervisor.SupervisorRegisterRequest;
-import common.command.supervisor.SupervisorResponse;
+import common.command.supervisor.*;
 import common.model.User;
 import common.model.UserRole;
 import server.ServerConfig;
 import server.db.PasswordHashing;
 import server.db.UserRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SupervisorController {
 
@@ -41,6 +42,60 @@ public class SupervisorController {
         }
         User foundUser = userRepository.findByUsername(req.getUsername().toLowerCase());
         return new SupervisorResponse(foundUser);
+    }
+
+    public Response findAllUsers() throws Exception {
+        List<User> users = userRepository.findAllUsers();
+
+        if (users.isEmpty()) {
+            return new CommonErrorResponse("Нет пользователей в системе.");
+        }
+
+        List<User> filteredUsers = users.stream()
+                .filter(user -> user.getRole() == UserRole.CLIENT || user.getRole() == UserRole.ADMIN)
+                .collect(Collectors.toList());
+
+        if (filteredUsers.isEmpty()) {
+            return new CommonErrorResponse("Нет пользователей с ролью CLIENT или ADMIN.");
+        }
+
+        UsersResponse response = new UsersResponse();
+        response.setUsers(filteredUsers);
+
+        return response;
+    }
+
+    public Response findUserById(FindUserByIdRequest req) throws Exception {
+        if (req.getUserId() == null) {
+            return new CommonErrorResponse("Не указан ID пользователя");
+        }
+
+        User user = userRepository.findById(req.getUserId());
+        if (user == null) {
+            return new CommonErrorResponse("Пользователь не найден");
+        }
+
+        UserResponse response = new UserResponse();
+        response.setUser(user);
+        return response;
+    }
+
+    public Response deleteUser(DeleteUserRequest req) throws Exception {
+        if (req.getUserId() == null) {
+            return new CommonErrorResponse("Не указан ID пользователя");
+        }
+
+        User user = userRepository.findById(req.getUserId());
+        if (user == null) {
+            return new CommonErrorResponse("Пользователь не найден");
+        }
+
+        boolean success = userRepository.deleteUserById(req.getUserId());
+        if (!success) {
+            return new CommonErrorResponse("Не удалось удалить пользователя");
+        }
+
+        return new CommonErrorResponse("Пользователь успешно удалён");
     }
 
 }

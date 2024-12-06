@@ -132,14 +132,12 @@ public class SessionDetailsController extends AbstractController {
                 return;
             }
 
-            // Переход на страницу выбора способа оплаты
             PaymentController controller = switchPage("/client/payment.fxml");
             if (controller == null) {
                 showErrorAlert("Ошибка загрузки страницы оплаты.");
                 return;
             }
 
-            // Передаем выбранные места в PaymentController
             controller.setOrderDetails(film, hall, session, selectedSeats);
 
         } catch (Exception e) {

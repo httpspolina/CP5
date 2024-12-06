@@ -1,7 +1,6 @@
 package client.controllers.admin;
 
 import client.controllers.AbstractController;
-import common.command.Request;
 import common.command.Response;
 import common.command.admin.AddFilmRequest;
 import common.model.Film;
@@ -10,8 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-
-import java.sql.Date;
 
 public class AddFilmController extends AbstractController {
     @FXML

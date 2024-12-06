@@ -48,7 +48,6 @@ public class HallsPageController extends AbstractController {
         }
     }
 
-    // Обратно к выбору фильма
     public void goBack(ActionEvent actionEvent) {
         FilmDetailsController controller = switchPage("/client/film.fxml");
         controller.setFilm(film);

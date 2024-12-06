@@ -137,7 +137,6 @@ public class FilmDetailsController extends AbstractController {
         switchPage("/client/main.fxml");
     }
 
-    // кнопка выбрать конкретный фильм
     public void chooseFilm(ActionEvent actionEvent) {
         HallsPageController controller = switchPage("/client/halls.fxml");
         controller.setFilm(film);
