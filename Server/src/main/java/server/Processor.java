@@ -71,6 +71,7 @@ public class Processor extends Thread {
                                 case AddFilmRequest req -> adminController.addFilm(req);
                                 case DeleteFilmRequest req -> adminController.deleteFilm(req);
                                 case UpdateFilmRequest req -> adminController.update(req);
+                                case FilterFilmsRequest req -> adminController.filterFilms(req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };
                         } else if (currentUser.getRole() == UserRole.CLIENT) {

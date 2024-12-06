@@ -230,14 +230,20 @@ public class FilmRepository {
     }
 
     public List<Film> filterFilms(String sortOrder) {
-        String sql = """
-    SELECT film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url,
-           avg(review.rating) AS rating
-    FROM film
-    LEFT JOIN review ON film.id = review.film_id
-    GROUP BY film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url
-    ORDER BY film.year """ + sortOrder;
+        // Проверка корректности значения sortOrder
+        if (!sortOrder.equals("asc") && !sortOrder.equals("desc")) {
+            throw new IllegalArgumentException("Invalid sort order: " + sortOrder);
+        }
 
+        // Формируем правильный SQL-запрос для сортировки
+        String sql = "SELECT film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url, " +
+                "avg(review.rating) AS rating " +
+                "FROM film " +
+                "LEFT JOIN review ON film.id = review.film_id " +
+                "GROUP BY film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url " +
+                "ORDER BY film.year " + (sortOrder.equals("asc") ? "ASC" : "DESC");
+
+        // Логируем SQL-запрос для отладки
         System.out.println("Executing SQL: " + sql);
 
         try (var connection = DatabaseConnection.get();
@@ -262,7 +268,7 @@ public class FilmRepository {
             return films;
         } catch (Exception e) {
             e.printStackTrace();
+            return Collections.emptyList();
         }
-        return Collections.emptyList();
     }
 }

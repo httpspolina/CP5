@@ -91,23 +91,16 @@ public class FilmsPageController extends AbstractController {
         }
 
         try {
-            System.out.println("Selected filter: " + selectedFilter);
-
             FilterFilmsRequest request = new FilterFilmsRequest();
             request.setFilterType("year");
             request.setSortOrder(selectedFilter.equals("По возрастанию") ? "asc" : "desc");
 
-            System.out.println("Sending request: filterType=" + request.getFilterType() + ", sortOrder=" + request.getSortOrder());
-
             Response response = call(request);
-
-            System.out.println("Response received: " + response);
 
             if (response instanceof FilmsResponse filmsResponse) {
                 filmsListView.getItems().clear();
                 filmsListView.getItems().addAll(filmsResponse.getFilms());
 
-                System.out.println("Films count after filter: " + filmsResponse.getFilms().size());
             } else if (response instanceof ErrorResponse errorResponse) {
                 showErrorAlert(errorResponse.getMessage());
             } else {

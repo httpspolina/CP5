@@ -3,13 +3,11 @@ package client.controllers.admin;
 import client.controllers.AbstractController;
 import common.command.ErrorResponse;
 import common.command.Response;
-import common.command.client.FilmResponse;
-import common.command.client.FilmsResponse;
-import common.command.client.FindAllFilmsRequest;
-import common.command.client.FindFilmByTitleRequest;
+import common.command.client.*;
 import common.model.Film;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -19,6 +17,9 @@ public class FilmsPageControllerAdmin extends AbstractController {
     public ListView<Film> filmsListView;
     @FXML
     public TextField filmSearchField;
+    @FXML
+    public ComboBox<String> filter;
+
 
     @Override
     public void initialize() {
@@ -89,6 +90,36 @@ public class FilmsPageControllerAdmin extends AbstractController {
         AddFilmController controller = switchPage("/admin/add_film.fxml");
         if (controller == null) {
             showErrorAlert("Ошибка загрузки страницы оплаты.");
+        }
+    }
+
+    public void filterByYear(ActionEvent actionEvent) {
+        String selectedFilter = (String) filter.getValue();
+
+        if (selectedFilter == null) {
+            showErrorAlert("Пожалуйста, выберите тип фильтрации.");
+            return;
+        }
+
+        try {
+            FilterFilmsRequest request = new FilterFilmsRequest();
+            request.setFilterType("year");
+            request.setSortOrder(selectedFilter.equals("По возрастанию") ? "asc" : "desc");
+
+            Response response = call(request);
+
+            if (response instanceof FilmsResponse filmsResponse) {
+                filmsListView.getItems().clear();
+                filmsListView.getItems().addAll(filmsResponse.getFilms());
+
+            } else if (response instanceof ErrorResponse errorResponse) {
+                showErrorAlert(errorResponse.getMessage());
+            } else {
+                showErrorAlert("Не удалось отфильтровать фильмы.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Ошибка при фильтрации фильмов.");
         }
     }
 }
