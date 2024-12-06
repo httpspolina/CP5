@@ -2,9 +2,7 @@ package server;
 
 import common.command.CommonErrorResponse;
 import common.command.Response;
-import common.command.admin.AdminLoginRequest;
-import common.command.admin.AdminRegisterRequest;
-import common.command.admin.AdminResponse;
+import common.command.admin.*;
 import common.command.client.*;
 import common.command.supervisor.SupervisorLoginRequest;
 import common.command.supervisor.SupervisorRegisterRequest;
@@ -68,15 +66,22 @@ public class Processor extends Thread {
                                 currentUser = response.getUser();
                             }
                         } else if (currentUser.getRole() == UserRole.ADMIN) {
+                            User currentAdmin = (User) currentUser;
                             res = switch (o) {
                                 case FindAllFilmsRequest req -> adminController.findAllFilms(req);
+                                case FindFilmByTitleRequest req -> adminController.findFilmByTitle(req);
+                                case FindFilmByIdRequest req -> adminController.findFilmById(req);
+                                case AddFilmRequest req -> adminController.addFilm(req);
+                                case DeleteFilmRequest req -> adminController.deleteFilm(req);
+                                case UpdateFilmRequest req -> adminController.update(req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };
                         } else if (currentUser.getRole() == UserRole.CLIENT) {
                             Client currentClient = (Client) currentUser;
                             res = switch (o) {
                                 case UpdateClientRequest req -> clientController.update(currentClient.getId(), req);
-                                case FindAllFilmsRequest req -> clientController.findAllFilms(req);                                case FindFilmByIdRequest req -> clientController.findFilmById(req);
+                                case FindAllFilmsRequest req -> clientController.findAllFilms(req);
+                                case FindFilmByIdRequest req -> clientController.findFilmById(req);
                                 case AddReviewRequest req -> clientController.addReview(currentClient.getId(), req);
                                 case FindHallsRequest req -> clientController.findHalls(req);
                                 case FindSessionsRequest req -> clientController.findSessions(req);

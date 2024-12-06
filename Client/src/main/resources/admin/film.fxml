@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #424769;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.admin.FilmDetailsControllerAdmin">
+    <children>
+        <Text fill="WHITE" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="АРТКино">
+            <font>
+                <Font name="Microsoft YaHei UI Light" size="48.0" />
+            </font>
+        </Text>
+        <Label fx:id="welcomeLabel" layoutX="36.0" layoutY="65.0" prefHeight="18.0" prefWidth="200.0" text="Добро пожаловать, {role}!" textFill="WHITE">
+            <font>
+                <Font name="Microsoft YaHei UI" size="12.0" />
+            </font>
+        </Label>
+        <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="582.0" layoutY="17.0" prefHeight="18.0" prefWidth="138.0" text="{username}" textFill="WHITE">
+            <font>
+                <Font name="Microsoft YaHei UI" size="12.0" />
+            </font>
+        </Label>
+        <Button layoutX="735.0" layoutY="14.0" onAction="#onExitButtonClick" text="Выйти">
+            <font>
+                <Font name="Microsoft YaHei UI" size="12.0" />
+            </font>
+        </Button>
+        <TextArea fx:id="filmDetailsTextArea" layoutX="36.0" layoutY="141.0" prefHeight="166.0" prefWidth="754.0" />
+        <Button layoutX="36.0" layoutY="101.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0" prefWidth="66.0" text="Назад">
+            <font>
+                <Font name="Microsoft YaHei" size="12.0" />
+            </font>
+        </Button>
+        <Text fx:id="filmTitleText" fill="WHITE" layoutX="260.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{название текущего фильма}" textAlignment="CENTER" wrappingWidth="328.0">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Text>
+      <Button layoutX="36.0" layoutY="321.0" mnemonicParsing="false" onAction="#toUpdateFilm" prefHeight="26.0" prefWidth="122.0" text="Редактировать" />
+      <Button layoutX="165.0" layoutY="321.0" mnemonicParsing="false" onAction="#toDeleteFilm" prefHeight="26.0" prefWidth="115.0" text="Удалить" />
+    </children>
+</AnchorPane>

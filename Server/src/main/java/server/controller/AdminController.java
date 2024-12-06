@@ -2,14 +2,10 @@ package server.controller;
 
 import common.command.CommonErrorResponse;
 import common.command.Response;
-import common.command.admin.AdminLoginRequest;
-import common.command.admin.AdminRegisterRequest;
-import common.command.admin.AdminResponse;
-import common.command.client.FilmsResponse;
-import common.command.client.FindAllFilmsRequest;
-import common.model.Film;
-import common.model.User;
-import common.model.UserRole;
+import common.command.SuccessResponse;
+import common.command.admin.*;
+import common.command.client.*;
+import common.model.*;
 import server.ServerConfig;
 import server.db.FilmRepository;
 import server.db.PasswordHashing;
@@ -55,4 +51,60 @@ public class AdminController {
         return new FilmsResponse(films);
     }
 
+    public Response findFilmById(FindFilmByIdRequest req) throws Exception {
+        Film film = filmRepository.findById(req.getFilmId());
+        if (film == null) {
+            return new CommonErrorResponse("Не удалось найти фильм");
+        }
+        return new FilmResponse(film);
+    }
+
+    public Response findFilmByTitle(FindFilmByTitleRequest req) throws Exception {
+        String title = req.getTitle();
+        Film film = filmRepository.findByTitle(title);
+        if (film == null) {
+            return new CommonErrorResponse("Фильм не найден.");
+        }
+        return new FilmResponse(film);
+    }
+
+    public Response addFilm(AddFilmRequest req) {
+        Film film = new Film();
+        film.setId(req.getFilm().getId());
+        film.setTitle(req.getFilm().getTitle());
+        film.setCountry(req.getFilm().getCountry());
+        film.setYear(req.getFilm().getYear());
+        film.setDirector(req.getFilm().getDirector());
+        film.setRoles(req.getFilm().getRoles());
+        film.setGenre(req.getFilm().getGenre());
+        film.setDescription(req.getFilm().getDescription());
+        film.setPosterUrl(req.getFilm().getPosterUrl());
+
+        Integer newFilmId = filmRepository.create(film);
+        if (newFilmId == null) {
+            return new CommonErrorResponse("Не удалось добавить фильм");
+        }
+        return SuccessResponse.INSTANCE;
+    }
+
+    public Response deleteFilm(DeleteFilmRequest req) {
+        boolean success = filmRepository.deleteById(req.getFilmId());
+        if (!success) {
+            return new CommonErrorResponse("Не удалось удалить фильм.");
+        }
+        return SuccessResponse.INSTANCE;
+    }
+
+    public Response update(UpdateFilmRequest req) {
+        Film film = req.getFilm();
+
+        boolean updated = filmRepository.update(film);
+
+        if (!updated) {
+            return new CommonErrorResponse("Не удалось обновить фильм");
+        }
+
+        Film updatedFilm = filmRepository.findById(film.getId());
+        return new FilmResponse(updatedFilm);
+    }
 }
