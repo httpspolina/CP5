@@ -13,10 +13,7 @@ import common.model.Session;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.sql.Date;
@@ -63,6 +60,31 @@ public class PaymentController extends AbstractController {
             if (response instanceof PaymentMethodsResponse paymentMethodsResponse) {
                 List<PaymentMethod> paymentMethods = paymentMethodsResponse.getPaymentMethods();
                 paymentMethodsComboBox.setItems(FXCollections.observableArrayList(paymentMethods));
+
+                paymentMethodsComboBox.setCellFactory(param -> new ListCell<PaymentMethod>() {
+                    @Override
+                    protected void updateItem(PaymentMethod paymentMethod, boolean empty) {
+                        super.updateItem(paymentMethod, empty);
+                        if (empty || paymentMethod == null) {
+                            setText(null);
+                        } else {
+                            setText(paymentMethod.getCardNumber());
+                        }
+                    }
+                });
+
+                paymentMethodsComboBox.setButtonCell(new ListCell<PaymentMethod>() {
+                    @Override
+                    protected void updateItem(PaymentMethod paymentMethod, boolean empty) {
+                        super.updateItem(paymentMethod, empty);
+                        if (empty || paymentMethod == null) {
+                            setText(null);
+                        } else {
+                            setText(paymentMethod.getCardNumber());
+                        }
+                    }
+                });
+
             } else {
                 showErrorAlert("Не удалось загрузить способы оплаты.");
             }
@@ -101,7 +123,7 @@ public class PaymentController extends AbstractController {
             Response response = call(request);
 
             if (response instanceof common.command.SuccessResponse) {
-                showSuccessAlert("Заказ успешно оформлен!");
+                showSuccessAlert("Заказ успешно оформлен!", true);
             } else {
                 showErrorAlert("Не удалось оформить заказ.");
             }
@@ -139,7 +161,7 @@ public class PaymentController extends AbstractController {
             if (response instanceof common.command.SuccessResponse) {
                 loadPaymentMethods();
                 cardDetailsVBox.setVisible(false);
-                showSuccessAlert("Карта успешно добавлена!");
+                showSuccessAlert("Карта успешно добавлена!", false);
             } else {
                 showErrorAlert("Не удалось добавить карту.");
             }
@@ -149,19 +171,31 @@ public class PaymentController extends AbstractController {
         }
     }
 
-    private void showSuccessAlert(String message) {
+    private void showSuccessAlert(String message, boolean isPaymentSuccess) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Успех");
         alert.setHeaderText(message);
 
-        ButtonType goToProfileButton = new ButtonType("Перейти к билетам в личном кабинете");
-        alert.getButtonTypes().setAll(goToProfileButton);
+        if (isPaymentSuccess) {
+            ButtonType goToProfileButton = new ButtonType("Перейти к билетам в личном кабинете");
+            alert.getButtonTypes().setAll(goToProfileButton);
 
-        alert.showAndWait().ifPresent(response -> {
-            if (response == goToProfileButton) {
-                switchPage("/client/profile.fxml");
-                alert.close();
-            }
-        });
+            alert.showAndWait().ifPresent(response -> {
+                if (response == goToProfileButton) {
+                    switchPage("/client/profile.fxml");
+                    alert.close();
+                }
+            });
+        } else {
+            ButtonType okButton = ButtonType.OK;
+            alert.getButtonTypes().setAll(okButton);
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == okButton) {
+                    alert.close();
+                }
+            });
+        }
     }
+
 }

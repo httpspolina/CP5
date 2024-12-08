@@ -112,7 +112,7 @@ public class AdminController {
 
     public Response filterFilms(FilterFilmsRequest request) {
         if (!"year".equals(request.getFilterType())) {
-            return new CommonErrorResponse("Неподдерживаемый тип фильтрации: " + request.getFilterType());
+            return new CommonErrorResponse("Неподдерживаемый тип сортировки: " + request.getFilterType());
         }
 
         try {
@@ -125,7 +125,7 @@ public class AdminController {
             return new FilmsResponse(filteredFilms);
         } catch (Exception e) {
             e.printStackTrace();
-            return new CommonErrorResponse("Ошибка при фильтрации фильмов: " + e.getMessage());
+            return new CommonErrorResponse("Ошибка при сортировке фильмов: " + e.getMessage());
         }
     }
 }

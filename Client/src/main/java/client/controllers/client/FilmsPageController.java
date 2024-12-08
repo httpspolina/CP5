@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -23,8 +24,29 @@ public class FilmsPageController extends AbstractController {
 
     @Override
     public void initialize() {
+        filmsListView.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Film film, boolean empty) {
+                super.updateItem(film, empty);
+                if (empty || film == null) {
+                    setText(null);
+                } else {
+                    int index = getIndex();
+                    String filmText = film.getTitle() + "\n" +
+                            "Год: " + film.getYear() + "\n" +
+                            "Описание: " + film.getDescription();
+
+                    if (index > 0) {
+                        setText("\n" + filmText);
+                    } else {
+                        setText(filmText);
+                    }
+                }
+            }
+        });
         loadAllFilms();
     }
+
 
     public void loadAllFilms() {
         try {
@@ -86,7 +108,7 @@ public class FilmsPageController extends AbstractController {
         String selectedFilter = (String) filter.getValue();
 
         if (selectedFilter == null) {
-            showErrorAlert("Пожалуйста, выберите тип фильтрации.");
+            showErrorAlert("Пожалуйста, выберите тип сортировки.");
             return;
         }
 
@@ -104,11 +126,11 @@ public class FilmsPageController extends AbstractController {
             } else if (response instanceof ErrorResponse errorResponse) {
                 showErrorAlert(errorResponse.getMessage());
             } else {
-                showErrorAlert("Не удалось отфильтровать фильмы.");
+                showErrorAlert("Не удалось отсортировать фильмы.");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Ошибка при фильтрации фильмов.");
+            showErrorAlert("Ошибка при сортировке фильмов.");
         }
     }
 

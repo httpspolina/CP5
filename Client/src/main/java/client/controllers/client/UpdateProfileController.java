@@ -39,6 +39,7 @@ public class UpdateProfileController extends AbstractController {
         nameField.setText(currentUser.getName());
         emailField.setText(currentUser.getEmail());
         phoneField.setText(currentUser.getPhone());
+        ordersTextArea.setEditable(false);
         loadOrders();
     }
 
@@ -72,7 +73,6 @@ public class UpdateProfileController extends AbstractController {
             showAlert("Ошибка", "Произошла ошибка при загрузке заказов.", Alert.AlertType.ERROR);
         }
     }
-
 
     public void onProfileButton(ActionEvent actionEvent) {
         switchPage("/client/profile.fxml");

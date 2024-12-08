@@ -8,6 +8,7 @@ import common.model.Film;
 import common.model.Hall;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
@@ -21,6 +22,29 @@ public class HallsPageController extends AbstractController {
         loadHallsDetails();
     }
 
+    @FXML
+    public void initialize() {
+        super.initialize();
+
+        hallsListView.setCellFactory(listView -> new ListCell<Hall>() {
+            @Override
+            protected void updateItem(Hall hall, boolean empty) {
+                super.updateItem(hall, empty);
+                if (empty || hall == null) {
+                    setText(null);
+                } else {
+                    String hallText = "Название: " + hall.getName() + "\n" +
+                            "Мест: " + hall.getSeats() + "\n" +
+                            "Цена: " + String.format("%.2f", hall.getPrice()) + "BYN";
+
+                    setText(hallText);
+                }
+            }
+        });
+
+        loadHallsDetails(); // Загружаем кинозалы
+    }
+
     private void loadHallsDetails() {
         if (film == null) return;
         try {
@@ -30,7 +54,12 @@ public class HallsPageController extends AbstractController {
             Response response = call(request);
 
             if (response instanceof HallsResponse hallsResponse) {
-                hallsListView.getItems().addAll(hallsResponse.getHalls());
+                hallsListView.getItems().clear();
+                if (hallsResponse.getHalls().isEmpty()) {
+                    hallsListView.getItems().add(new Hall());
+                } else {
+                    hallsListView.getItems().addAll(hallsResponse.getHalls());
+                }
             } else {
                 showErrorAlert("Не удалось получить кинозалы.");
             }
@@ -53,4 +82,3 @@ public class HallsPageController extends AbstractController {
         controller.setFilm(film);
     }
 }
-

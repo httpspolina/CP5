@@ -40,6 +40,8 @@ public class FilmDetailsController extends AbstractController {
     public void initialize() {
         super.initialize();
         initializeRatingComboBox();
+        reviewTextArea.setEditable(false);
+        filmDetailsTextArea.setEditable(false);
         addReviewButton.setDisable(true);
     }
 
@@ -60,7 +62,12 @@ public class FilmDetailsController extends AbstractController {
                 String filmDetails = getFilmDetails(filmResponse.getFilm());
                 film = filmResponse.getFilm();
                 filmDetailsTextArea.setText(filmDetails);
-                reviewTextArea.setText(filmResponse.getFilm().getReviews().stream().map(Review::toString).collect(Collectors.joining("\n\n")));
+
+                String formattedReviews = film.getReviews().stream()
+                        .map(review -> formatReview(review))
+                        .collect(Collectors.joining("\n\n"));
+
+                reviewTextArea.setText(formattedReviews.isEmpty() ? "Отзывов пока нет." : formattedReviews);
 
                 filmTitleText.setText(film.getTitle());
             } else {
@@ -70,6 +77,12 @@ public class FilmDetailsController extends AbstractController {
             e.printStackTrace();
             showErrorAlert("Ошибка при загрузке фильма.");
         }
+    }
+
+    private String formatReview(Review review) {
+        return "Имя пользователя: " + review.getClient().getName() + "\n" +
+                "Дата: " + review.getCreatedAt() + "\n" +
+                "Текст отзыва: " + review.getDescription();
     }
 
     private String getFilmDetails(Film film) {

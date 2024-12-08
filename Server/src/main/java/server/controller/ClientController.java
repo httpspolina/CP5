@@ -172,20 +172,16 @@ public class ClientController {
 
     public Response filterFilms(FilterFilmsRequest request) {
         if (!"year".equals(request.getFilterType())) {
-            return new CommonErrorResponse("Неподдерживаемый тип фильтрации: " + request.getFilterType());
+            return new CommonErrorResponse("Неподдерживаемый тип сортировки: " + request.getFilterType());
         }
 
         try {
-            System.out.println("Filter type: " + request.getFilterType());
-            System.out.println("Sort order: " + request.getSortOrder());
-
             List<Film> filteredFilms = filmRepository.filterFilms(request.getSortOrder());
-            System.out.println("Filtered films count: " + filteredFilms.size());
 
             return new FilmsResponse(filteredFilms);
         } catch (Exception e) {
             e.printStackTrace();
-            return new CommonErrorResponse("Ошибка при фильтрации фильмов: " + e.getMessage());
+            return new CommonErrorResponse("Ошибка при сортировке фильмов: " + e.getMessage());
         }
     }
 }

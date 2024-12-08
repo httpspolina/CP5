@@ -25,6 +25,7 @@ public class UserDetailsController extends AbstractController {
     public void setUser(User selectedUser) {
         this.user = selectedUser;
         loadUserDetails();
+        userDetailsTextArea.setEditable(false);
     }
 
     public void loadUserDetails() {

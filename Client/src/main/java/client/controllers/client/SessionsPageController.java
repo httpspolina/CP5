@@ -9,8 +9,10 @@ import common.model.Hall;
 import common.model.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import java.text.SimpleDateFormat;
 
 public class SessionsPageController extends AbstractController {
     @FXML
@@ -24,6 +26,24 @@ public class SessionsPageController extends AbstractController {
         loadSessionsDetails();
     }
 
+    @Override
+    public void initialize() {
+        sessionsListView.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Session session, boolean empty) {
+                super.updateItem(session, empty);
+                if (empty || session == null) {
+                    setText(null);
+                } else {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                    String sessionDate = dateFormat.format(session.getDate());
+                    String sessionText = "Дата: " + sessionDate + "\n";
+                    setText(sessionText);
+                }
+            }
+        });
+    }
+
     private void loadSessionsDetails() {
         if (film == null || hall == null) return;
         try {
@@ -34,16 +54,16 @@ public class SessionsPageController extends AbstractController {
             Response response = call(request);
 
             if (response instanceof SessionsResponse sessionsResponse) {
+                sessionsListView.getItems().clear();
                 sessionsListView.getItems().addAll(sessionsResponse.getSessions());
             } else {
-                showErrorAlert("Не удалось получить кинозалы.");
+                showErrorAlert("Не удалось получить сеансы.");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorAlert("Ошибка при загрузке кинозалов.");
+            showErrorAlert("Ошибка при загрузке сеансов.");
         }
     }
-
 
     public void goBack(ActionEvent actionEvent) {
         HallsPageController controller = switchPage("/client/halls.fxml");

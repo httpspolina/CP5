@@ -25,6 +25,7 @@ public class FilmDetailsControllerAdmin extends AbstractController {
     @FXML
     public void initialize() {
         super.initialize();
+        filmDetailsTextArea.setEditable(false);
     }
 
     public void setFilm(Film film) {

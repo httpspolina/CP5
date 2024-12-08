@@ -5,18 +5,37 @@ import common.command.ErrorResponse;
 import common.command.Response;
 import common.command.supervisor.FindAllUsersRequest;
 import common.command.supervisor.UsersResponse;
-import common.model.User;
+import common.model.User;  // Используем базовый класс User
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 public class UsersPageController extends AbstractController {
-    public ListView usersListView;
+    @FXML
+    public ListView<User> usersListView;
+    @FXML
     public TextField userSearchField;
 
     @Override
     public void initialize() {
+        usersListView.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                if (empty || user == null) {
+                    setText(null);
+                } else {
+                    String userText;
+                    userText = "Имя пользователя: " + user.getUsername() + "\n" +
+                            "Роль: " + user.getRole();
+                    setText(userText);
+                }
+            }
+        });
+
         loadAllUsers();
     }
 
@@ -42,7 +61,7 @@ public class UsersPageController extends AbstractController {
     }
 
     public void goToUserDetails(MouseEvent mouseEvent) {
-        User selectedUser = (User) usersListView.getSelectionModel().getSelectedItem();
+        User selectedUser = usersListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             UserDetailsController controller = switchPage("/supervisor/user.fxml");
             controller.setUser(selectedUser);
@@ -50,6 +69,7 @@ public class UsersPageController extends AbstractController {
     }
 
     public void toSearchUser(ActionEvent actionEvent) {
+
     }
 
     public void showAllUsers(ActionEvent actionEvent) {

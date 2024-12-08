@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 
 import java.util.List;
 
@@ -41,6 +42,43 @@ public class CancelOrderController extends AbstractController {
                         .toList();
 
                 ordersComboBox.setItems(FXCollections.observableArrayList(orders));
+
+                ordersComboBox.setCellFactory(param -> new ListCell<Order>() {
+                    @Override
+                    protected void updateItem(Order order, boolean empty) {
+                        super.updateItem(order, empty);
+                        if (empty || order == null) {
+                            setText(null);
+                        } else {
+                            setText("ID заказа: " + order.getId() +
+                                    ", Статус: " + order.getStatus() +
+                                    ", Клиент: " + order.getClientId() +
+                                    ", Метод оплаты: " + order.getPaymentMethodId() +
+                                    ", Время сеанса: " + order.getSessionId() +
+                                    ", Места: " + order.getSeatIndex() +
+                                    ", Дата создания: " + order.getCreatedAt());
+                        }
+                    }
+                });
+
+                ordersComboBox.setButtonCell(new ListCell<Order>() {
+                    @Override
+                    protected void updateItem(Order order, boolean empty) {
+                        super.updateItem(order, empty);
+                        if (empty || order == null) {
+                            setText(null);
+                        } else {
+                            setText("ID заказа: " + order.getId() +
+                                    ", Статус: " + order.getStatus() +
+                                    ", Клиент: " + order.getClientId() +
+                                    ", Метод оплаты: " + order.getPaymentMethodId() +
+                                    ", Время сеанса: " + order.getSessionId() +
+                                    ", Места: " + order.getSeatIndex() +
+                                    ", Дата создания: " + order.getCreatedAt());
+                        }
+                    }
+                });
+
             } else {
                 showErrorAlert("Не удалось загрузить заказы.");
             }
@@ -49,6 +87,7 @@ public class CancelOrderController extends AbstractController {
             showErrorAlert("Ошибка при загрузке заказов.");
         }
     }
+
 
     public void cancelOrder(ActionEvent actionEvent) {
         Order selectedOrder = ordersComboBox.getValue();
