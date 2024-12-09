@@ -98,4 +98,18 @@ public class SupervisorController {
         return new CommonErrorResponse("Пользователь успешно удалён");
     }
 
+    public Response findUsersByUsername(FindUserByUsernameRequest req) throws Exception {
+        if (req.getUsername() == null || req.getUsername().isEmpty()) {
+            return new CommonErrorResponse("Имя пользователя не указано.");
+        }
+
+        List<User> users = userRepository.findUsersByUsername(req.getUsername());
+        if (users.isEmpty()) {
+            return new CommonErrorResponse("Пользователи с таким именем не найдены.");
+        }
+
+        UsersResponse response = new UsersResponse();
+        response.setUsers(users);
+        return response;
+    }
 }

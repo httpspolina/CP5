@@ -141,4 +141,29 @@ public class UserRepository {
         }
         return false;
     }
+
+    public List<User> findUsersByUsername(String username) {
+        List<User> users = new ArrayList<>();
+        try (var connection = DatabaseConnection.get()) {
+            try (var statement = connection.prepareStatement("""
+                SELECT id, username, role
+                FROM user
+                WHERE LOWER(username) LIKE ?
+                """)) {
+                statement.setString(1, "%" + username.toLowerCase() + "%");
+                try (var rs = statement.executeQuery()) {
+                    while (rs.next()) {
+                        User user = new User();
+                        user.setId(rs.getInt("id"));
+                        user.setUsername(rs.getString("username"));
+                        user.setRole(UserRole.valueOf(rs.getString("role")));
+                        users.add(user);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 }

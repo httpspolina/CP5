@@ -104,6 +104,7 @@ public class Processor extends Thread {
                                 case FindAllUsersRequest req -> supervisorController.findAllUsers();
                                 case FindUserByIdRequest req -> supervisorController.findUserById(req);
                                 case DeleteUserRequest req -> supervisorController.deleteUser(req);
+                                case FindUserByUsernameRequest req -> supervisorController.findUsersByUsername(req);
                                 default -> new CommonErrorResponse("Неподдерживаемый запрос: " + o);
                             };
                         }

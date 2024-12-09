@@ -4,6 +4,8 @@ import client.controllers.AbstractController;
 import common.command.ErrorResponse;
 import common.command.Response;
 import common.command.supervisor.FindAllUsersRequest;
+import common.command.supervisor.FindUserByUsernameRequest;
+import common.command.supervisor.UserResponse;
 import common.command.supervisor.UsersResponse;
 import common.model.User;
 import javafx.event.ActionEvent;
@@ -70,7 +72,36 @@ public class UsersPageController extends AbstractController {
     }
 
     public void toSearchUser(ActionEvent actionEvent) {
+        String username = userSearchField.getText().trim();
 
+        if (username.isEmpty()) {
+            showErrorAlert("Пожалуйста, введите имя пользователя.");
+            return;
+        }
+
+        try {
+            FindUserByUsernameRequest request = new FindUserByUsernameRequest();
+            request.setUsername(username);
+
+            Response response = call(request);
+
+            if (response instanceof UsersResponse usersResponse) {
+                usersListView.getItems().clear();
+
+                if (!usersResponse.getUsers().isEmpty()) {
+                    usersListView.getItems().addAll(usersResponse.getUsers());
+                } else {
+                    showErrorAlert("Пользователь не найден.");
+                }
+            } else if (response instanceof ErrorResponse errorResponse) {
+                showErrorAlert(errorResponse.getMessage());
+            } else {
+                showErrorAlert("Не удалось найти пользователя.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Ошибка при поиске пользователя.");
+        }
     }
 
     public void showAllUsers(ActionEvent actionEvent) {
