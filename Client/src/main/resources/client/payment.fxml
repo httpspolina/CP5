@@ -18,7 +18,7 @@
          <VBox.margin>
             <Insets left="300.0" top="40.0" />
          </VBox.margin>
-      </Label>x
+      </Label>
       <HBox>
          <children>
               <ComboBox fx:id="paymentMethodsComboBox" prefHeight="34.0" prefWidth="282.0">

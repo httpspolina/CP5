@@ -28,6 +28,8 @@ public class SessionsPageController extends AbstractController {
 
     @Override
     public void initialize() {
+        super.initialize();
+
         sessionsListView.setCellFactory(listView -> new ListCell<>() {
             @Override
             protected void updateItem(Session session, boolean empty) {

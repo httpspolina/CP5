@@ -5,7 +5,7 @@ import common.command.ErrorResponse;
 import common.command.Response;
 import common.command.supervisor.FindAllUsersRequest;
 import common.command.supervisor.UsersResponse;
-import common.model.User;  // Используем базовый класс User
+import common.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
@@ -21,6 +21,7 @@ public class UsersPageController extends AbstractController {
 
     @Override
     public void initialize() {
+        super.initialize();
         usersListView.setCellFactory(listView -> new ListCell<>() {
             @Override
             protected void updateItem(User user, boolean empty) {

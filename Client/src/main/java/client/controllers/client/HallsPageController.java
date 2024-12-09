@@ -42,7 +42,7 @@ public class HallsPageController extends AbstractController {
             }
         });
 
-        loadHallsDetails(); // Загружаем кинозалы
+        loadHallsDetails();
     }
 
     private void loadHallsDetails() {

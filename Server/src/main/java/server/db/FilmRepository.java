@@ -77,10 +77,12 @@ public class FilmRepository {
             try (var statement = connection.prepareStatement("""
                     SELECT film.id AS film_id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description AS film_description, film.poster_url,
                            review.id AS review_id, review.client_id, review.rating, review.description AS review_description, review.created_at,
-                           client.name AS client_name
+                           client.name AS client_name,
+                           user.username
                     FROM film
                     LEFT JOIN review ON film.id = review.film_id
                     LEFT JOIN client ON review.client_id = client.id
+                    LEFT JOIN user ON client.id = user.id
                     WHERE film.id = ?
                     ORDER BY review.created_at DESC
                     """)) {
@@ -112,6 +114,7 @@ public class FilmRepository {
                                     client.setId(rs.getInt("client_id"));
                                     client.setRole(UserRole.CLIENT);
                                     client.setName(rs.getString("client_name"));
+                                    client.setUsername(rs.getString("username"));
                                     review.setClient(client);
                                 }
                                 reviews.add(review);
@@ -230,21 +233,16 @@ public class FilmRepository {
     }
 
     public List<Film> filterFilms(String sortOrder) {
-        // Проверка корректности значения sortOrder
         if (!sortOrder.equals("asc") && !sortOrder.equals("desc")) {
             throw new IllegalArgumentException("Invalid sort order: " + sortOrder);
         }
 
-        // Формируем правильный SQL-запрос для сортировки
         String sql = "SELECT film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url, " +
                 "avg(review.rating) AS rating " +
                 "FROM film " +
                 "LEFT JOIN review ON film.id = review.film_id " +
                 "GROUP BY film.id, film.title, film.country, film.year, film.director, film.roles, film.genre, film.description, film.poster_url " +
                 "ORDER BY film.year " + (sortOrder.equals("asc") ? "ASC" : "DESC");
-
-        // Логируем SQL-запрос для отладки
-        System.out.println("Executing SQL: " + sql);
 
         try (var connection = DatabaseConnection.get();
              var statement = connection.prepareStatement(sql);

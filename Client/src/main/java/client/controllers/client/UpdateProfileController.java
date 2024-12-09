@@ -49,7 +49,6 @@ public class UpdateProfileController extends AbstractController {
 
             Response response = call(request);
 
-            // Проверяем тип ответа
             if (response instanceof OrdersResponse ordersResponse) {
                 List<Order> orders = ordersResponse.getOrders();
 

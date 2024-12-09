@@ -24,6 +24,7 @@ public class FilmsPageController extends AbstractController {
 
     @Override
     public void initialize() {
+        super.initialize();
         filmsListView.setCellFactory(listView -> new ListCell<>() {
             @Override
             protected void updateItem(Film film, boolean empty) {

@@ -16,6 +16,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
@@ -103,9 +105,9 @@ public class PaymentController extends AbstractController {
 
     public void buyTickets(ActionEvent actionEvent) {
         try {
-            PaymentMethod selectedPaymentMethod = paymentMethodsComboBox.getValue();
+            paymentMethod = paymentMethodsComboBox.getValue();
 
-            if (selectedPaymentMethod == null) {
+            if (paymentMethod == null) {
                 showErrorAlert("Пожалуйста, выберите способ оплаты.");
                 return;
             }
@@ -117,7 +119,7 @@ public class PaymentController extends AbstractController {
 
             CreateOrderRequest request = new CreateOrderRequest();
             request.setSessionId(session.getId());
-            request.setPaymentMethodId(selectedPaymentMethod.getId());
+            request.setPaymentMethodId(paymentMethod.getId());
             request.setSelectedSeatIndexes(selectedSeats);
 
             Response response = call(request);
@@ -178,14 +180,25 @@ public class PaymentController extends AbstractController {
 
         if (isPaymentSuccess) {
             ButtonType goToProfileButton = new ButtonType("Перейти к билетам в личном кабинете");
-            alert.getButtonTypes().setAll(goToProfileButton);
+            ButtonType printTicketsButton = new ButtonType("Распечатать билеты");
+            alert.getButtonTypes().setAll(goToProfileButton, printTicketsButton);
 
             alert.showAndWait().ifPresent(response -> {
                 if (response == goToProfileButton) {
                     switchPage("/client/profile.fxml");
-                    alert.close();
+                } else if (response == printTicketsButton) {
+                    try {
+                        saveOrderDetailsToFile();
+                        showInfoAlert("Билеты успешно сохранены на рабочем столе.");
+                        switchPage("/client/profile.fxml");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        showErrorAlert("Ошибка при сохранении билетов.");
+                    }
                 }
             });
+
+            alert.setOnCloseRequest(event -> switchPage("/client/profile.fxml"));
         } else {
             ButtonType okButton = ButtonType.OK;
             alert.getButtonTypes().setAll(okButton);
@@ -198,4 +211,25 @@ public class PaymentController extends AbstractController {
         }
     }
 
+    private void saveOrderDetailsToFile() throws Exception {
+        String desktopPath = System.getProperty("user.home") + "\\Desktop";
+        String fileName = "Билеты_заказ.txt";
+        String filePath = desktopPath + "\\" + fileName;
+
+        StringBuilder fileContent = new StringBuilder();
+        fileContent.append("Билеты на фильм: ").append(film.getTitle()).append("\n");
+        fileContent.append("Дата и время сеанса: ").append(session.getDate()).append("\n");
+        fileContent.append("Зал: ").append(hall.getName()).append("\n");
+        fileContent.append("Выбранные места: ").append(selectedSeats).append("\n");
+        fileContent.append("Способ оплаты: ").append(paymentMethod.getCardNumber()).append("\n");
+
+        Files.writeString(Path.of(filePath), fileContent.toString());
+    }
+
+    private void showInfoAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Информация");
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
 }

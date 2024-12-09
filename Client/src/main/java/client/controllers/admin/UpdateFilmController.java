@@ -1,10 +1,12 @@
 package client.controllers.admin;
 
 import client.controllers.AbstractController;
+import client.controllers.client.SessionsPageController;
 import common.command.Response;
 import common.command.SuccessResponse;
 import common.command.admin.UpdateFilmRequest;
 import common.model.Film;
+import common.model.Hall;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -109,6 +111,7 @@ public class UpdateFilmController extends AbstractController {
     }
 
     public void cancel(ActionEvent actionEvent) {
-        switchPage("/admin/film.fxml");
+        FilmDetailsControllerAdmin controller = switchPage("/admin/film.fxml");
+        controller.setFilm(film);
     }
 }

@@ -80,7 +80,7 @@ public class FilmDetailsController extends AbstractController {
     }
 
     private String formatReview(Review review) {
-        return "Имя пользователя: " + review.getClient().getName() + "\n" +
+        return "Имя пользователя: " + review.getClient().getUsername() + "\n" +
                 "Дата: " + review.getCreatedAt() + "\n" +
                 "Текст отзыва: " + review.getDescription();
     }
